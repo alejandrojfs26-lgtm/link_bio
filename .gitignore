@@ -1,0 +1,10 @@
+__pycache__/
+*.db
+*.py[cod]
+assets/external/
+.states
+.web
+.venv/
+venv/
+public/
+frontend.zip
