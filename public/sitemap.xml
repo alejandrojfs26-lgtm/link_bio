@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://linkbio-frontend.vercel.app/</loc>
+    <loc>https://link-bio-blush-seven.vercel.app/</loc>
   </url>
   <url>
-    <loc>https://linkbio-frontend.vercel.app/cursos</loc>
+    <loc>https://link-bio-blush-seven.vercel.app/cursos</loc>
   </url>
 </urlset>
