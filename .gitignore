@@ -6,6 +6,5 @@ assets/external/
 .web
 .venv/
 venv/
-public/
 frontend.zip
 .vscode/
