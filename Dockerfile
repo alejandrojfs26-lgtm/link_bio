@@ -12,12 +12,11 @@ COPY . .
 
 RUN uv pip install --system --no-cache-dir -r requirements.txt
 
-RUN python -c "import reflex; print('Reflex OK')"
-
 ENV PYTHONUNBUFFERED=1
+ENV REFLEX_USE_UVICORN=1
 
 STOPSIGNAL SIGKILL
 
-EXPOSE 8000
+EXPOSE ${PORT:-8000}
 
-CMD reflex run --env prod --backend-only --backend-port ${PORT:-8000}
+CMD reflex init && reflex run --env prod --backend-only --backend-port ${PORT:-8000}
