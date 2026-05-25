@@ -8,3 +8,4 @@ assets/external/
 venv/
 public/
 frontend.zip
+.vscode/

@@ -5,3 +5,4 @@ API_URL=https://linkbio-backend.up.railway.app/ uv run reflex export --frontend-
 rm -rf public
 unzip frontend.zip -d public
 rm -f frontend.zip
+desactivate
