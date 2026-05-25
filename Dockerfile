@@ -4,6 +4,7 @@ WORKDIR /app
 
 RUN apt-get update -y && apt-get install -y \
     gcc \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir uv reflex
