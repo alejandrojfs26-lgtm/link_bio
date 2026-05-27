@@ -16,9 +16,11 @@ def hello(_request: Request) -> Response:
 
 async def live(request: Request) -> JSONResponse:
     user = request.path_params.get("user", "")
-    live, title = TWITCH_API.live(user)
-    return JSONResponse(content={"live": live, "title": title})
+    print("user", user)
+    live_status = TWITCH_API.live(user)
+    return JSONResponse(content={"live": live_status.live, "title": live_status.title})
 
 
 async def featured() -> JSONResponse:
     return JSONResponse(SUPABASE_API.featured())
+

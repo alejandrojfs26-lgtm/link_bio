@@ -1,5 +1,4 @@
 reflex>=0.9.2.post1
 python-dotenv
-requests
-supabase
-flask   
+requests==2.32.5
+supabase==2.30.0    

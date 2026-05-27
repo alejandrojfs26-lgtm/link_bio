@@ -27,7 +27,7 @@ def courses() -> rx.Component:
         rx.center(
             rx.vstack(
                 header(False,
-                PagesState.is_live),
+                PagesState.live),
                 courses_links(),
                 sponsors(),
                 max_width=styles.MAX_WIDTH,

@@ -7,8 +7,9 @@ from link_bio.styles.styles import Size as Size
 from link_bio.styles.colors import TextColor as TextColor
 from link_bio.styles.colors import Color as Color
 from link_bio.styles.fonts import FontWeight
+from link_bio.model.live import Live
 
-def header(details = True, live=False) -> rx.Component:
+def header(details=True, live=Live(live=False, title=None, user="")) -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.box(
@@ -64,10 +65,10 @@ def header(details = True, live=False) -> rx.Component:
             width="100%",
         ),
         rx.cond(
-            live,
+            live.live,
             link_button("En directo en Twitch", 
-            "Twitch", 
-            "https://twitch.tv/mouredev", 
+            live.user, 
+            f"https://twitch.tv/{live.user}", 
             "icons/twitch.svg", 
             False),
         ),

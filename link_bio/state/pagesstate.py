@@ -1,22 +1,22 @@
 import reflex as rx
-from link_bio.api.api import TWITCH_API, hello_content, featured
-from typing import Any
+from link_bio.api.api import TWITCH_API, hello_content
+from link_bio.api.SupabaseAPI import SupabaseAPI
+from link_bio.model.live import Live
+
+SUPABASE_API = SupabaseAPI()
 
 class PagesState(rx.State):
 
-    is_live: bool
-    featured_info: list[dict[str, Any]] = []
+    live: Live
+    featured_info: list[dict]
 
     async def check_live(self):
-        is_live, _ = TWITCH_API.live("mouredev")
-        self.is_live = is_live
+        self.live = TWITCH_API.live("mouredev")
 
-    @rx.var
     def say_hello(self) -> str:
         return hello_content()
 
-    async def featured_links(self): 
-        featured_info = await featured()
-        self.featured_info = featured_info
+    async def featured_links(self):
+        self.featured_info = SUPABASE_API.featured()
 
             

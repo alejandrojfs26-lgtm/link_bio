@@ -1,11 +1,12 @@
+from link_bio.model.live import Live
 import os
 import dotenv
 import requests
 import time
 
-class TwitchAPI:
+dotenv.load_dotenv()
 
-    dotenv.load_dotenv()
+class TwitchAPI:
 
     CLIENT_ID = os.environ.get("TWITCH_CLIENT_ID")
     CLIENT_SECRET = os.environ.get("TWITCH_CLIENT_SECRET")
@@ -35,7 +36,7 @@ class TwitchAPI:
     def token_valid(self) -> bool:
         return time.time() < self.token_exp
 
-    def live(self, user: str) -> bool:
+    def live(self, user: str) -> Live:
         if not self.token_valid():
             self.generate_token()
 
@@ -49,6 +50,14 @@ class TwitchAPI:
 
         if response.status_code == 200 and response.json().get("data"):
             data = response.json()["data"]
-            return True, data[0]["title"]
+            return Live(
+                live=True,
+                title=data[0]["title"],
+                user=user
+            )
 
-        return False, None
+        return Live(
+            live=False,
+            title=None,
+            user=user
+        )
