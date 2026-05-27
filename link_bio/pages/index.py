@@ -7,13 +7,13 @@ from link_bio.views.index_links import index_links
 from link_bio.views.sponsors import sponsors
 import link_bio.styles.styles as styles
 from link_bio.styles.styles import Size as Size
+from link_bio.state.pagesstate import PagesState
 
-#class State(rx.State):
-    #pass
 
 @rx.page(
     title=utils.index_title,
     description=utils.index_description,
+    on_load=[PagesState.check_live, PagesState.featured_links]
 )
 
 def index() -> rx.Component:
@@ -22,8 +22,9 @@ def index() -> rx.Component:
         navbar(),
         rx.center(
             rx.vstack(
-                header(),
-                index_links(),
+                rx.text(PagesState.say_hello),
+                header(live=PagesState.is_live),
+                index_links(PagesState.featured_info),
                 sponsors(),
                 max_width=styles.MAX_WIDTH,
                 width="100%",

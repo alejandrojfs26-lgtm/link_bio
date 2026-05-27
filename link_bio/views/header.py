@@ -1,3 +1,4 @@
+from link_bio.components.link_button import link_button
 import reflex as rx
 from link_bio.components.link_icon import link_icon
 from link_bio.components.info_text import info_text
@@ -7,21 +8,31 @@ from link_bio.styles.colors import TextColor as TextColor
 from link_bio.styles.colors import Color as Color
 from link_bio.styles.fonts import FontWeight
 
-def header(details = True) -> rx.Component:
+def header(details = True, live=False) -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.box(
-                rx.avatar(
-                    name="Alejandro Fuentes",
-                    size="9",
-                    src="macbook.jpg",
-                    color=TextColor.BODY.value,
-                    bg=Color.CONTENT.value,
-                ),
-                padding="3px",
-                border_radius="9999px",
-
-            ),
+    rx.avatar(
+        name="Alejandro Fuentes",
+        size="9",
+        src="macbook.jpg",
+    ),
+    rx.cond(
+        live,
+        rx.box(
+        width="14px",
+        height="14px",
+        bg=Color.PURPLE.value,
+        border_radius="50%",
+        border=Color.PURPLE.value,
+        position="absolute",
+        bottom="4px",
+        right="4px",
+        class_name="blink"
+    )),
+    position="relative",
+    display="inline-block",
+),
             rx.vstack(
                 title("Alejandro Fuentes"),
                 rx.text(
@@ -51,6 +62,14 @@ def header(details = True) -> rx.Component:
             rx.spacer(),
             info_text("+10K", "estudiantes"),
             width="100%",
+        ),
+        rx.cond(
+            live,
+            link_button("En directo en Twitch", 
+            "Twitch", 
+            "https://twitch.tv/mouredev", 
+            "icons/twitch.svg", 
+            False),
         ),
         rx.text(
             "Soy ingeniero de software y divulgador. Te enseño programación e inteligencia artificial desde cero. Aquí podrás encontrar todos mis enlaces de interés ¡Bienvenid@!",

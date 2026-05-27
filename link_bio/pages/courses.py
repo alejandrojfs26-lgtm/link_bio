@@ -8,6 +8,7 @@ from link_bio.views.sponsors import sponsors
 import link_bio.styles.styles as styles
 from link_bio.styles.styles import Size as Size
 from link_bio.routes import Route
+from link_bio.state.pagesstate import PagesState
 
 #class State(rx.State):
     #pass
@@ -16,6 +17,7 @@ from link_bio.routes import Route
     route=Route.COURSES.value,
     title=utils.courses_title,
     description=utils.courses_description,
+    on_load=PagesState.check_live
 )
 
 def courses() -> rx.Component:
@@ -24,7 +26,8 @@ def courses() -> rx.Component:
         navbar(),
         rx.center(
             rx.vstack(
-                header(details=False),
+                header(False,
+                PagesState.is_live),
                 courses_links(),
                 sponsors(),
                 max_width=styles.MAX_WIDTH,
