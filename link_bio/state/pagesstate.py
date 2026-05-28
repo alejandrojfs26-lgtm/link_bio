@@ -12,7 +12,7 @@ class PagesState(rx.State):
     featured_info: list[Featured] = []
 
     async def check_live(self):
-        self.live = TWITCH_API.live("ohnePixel")
+        self.live = TWITCH_API.live("mouredev")
         schedule_dict = await schedule()
         self.next_live = utils.next_date(schedule_dict)
 
