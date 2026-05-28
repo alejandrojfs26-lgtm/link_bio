@@ -5,6 +5,7 @@ import json
 
 dotenv.load_dotenv()
 
+
 class ConfigCatAPI:
 
     CONFIGCAT_API_KEY = os.environ.get("CONFIGCAT_API_KEY")
@@ -12,7 +13,7 @@ class ConfigCatAPI:
     def __init__(self) -> None:
         if self.CONFIGCAT_API_KEY:
             self.configcat = configcatclient.get(self.CONFIGCAT_API_KEY)
-    
+
     def schedule(self) -> dict:
         if not self.CONFIGCAT_API_KEY:
             return {}

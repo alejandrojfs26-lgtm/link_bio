@@ -8,6 +8,7 @@ MAX_WIDTH = "600px"
 
 STYLESHEETS = [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap",
+    "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
     "../assets/css/styles.css"
 ]
 

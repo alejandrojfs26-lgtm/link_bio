@@ -9,6 +9,7 @@ TWITCH_API = TwitchAPI()
 CONFIGCAT_API = ConfigCatAPI()
 SUPABASE_API = SupabaseAPI()
 
+
 def hello_content() -> str:
     return "Hola"
 
@@ -19,13 +20,19 @@ def hello(_request: Request) -> Response:
 
 async def live(request: Request) -> JSONResponse:
     user = request.path_params.get("user", "")
-    print("user", user)
     live_status = TWITCH_API.live(user)
     return JSONResponse(content={"live": live_status.live, "title": live_status.title})
 
 
 async def schedule() -> dict:
-    return CONFIGCAT_API.schedule()
+    try:
+        return CONFIGCAT_API.schedule()
+    except Exception:
+        return {}
+
 
 async def featured() -> list[Featured]:
-    return SUPABASE_API.featured()
+    try:
+        return SUPABASE_API.featured()
+    except Exception:
+        return []

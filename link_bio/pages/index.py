@@ -13,7 +13,18 @@ from link_bio.state.pagesstate import PagesState
 @rx.page(
     title=utils.index_title,
     description=utils.index_description,
-    on_load=[PagesState.check_live, PagesState.featured_links]
+    on_load=[
+        PagesState.check_live,
+        PagesState.featured_links,
+        rx.call_script(
+            "Intl.DateTimeFormat().resolvedOptions().timeZone",
+            PagesState.set_timezone,
+        ),
+        rx.call_script(
+            "(navigator.language || navigator.languages[0])",
+            PagesState.set_locale,
+        ),
+    ]
 )
 
 def index() -> rx.Component:

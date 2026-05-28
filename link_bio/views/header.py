@@ -9,6 +9,7 @@ from link_bio.styles.colors import Color as Color
 from link_bio.styles.fonts import FontWeight
 from link_bio.model.live import Live
 
+
 def header(details=True, live=Live(live=False, title=None, user=""), next_live: str = "") -> rx.Component:
     return rx.vstack(
         rx.hstack(
@@ -66,12 +67,16 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
         ),
         rx.cond(
             live.live,
-            link_button(
-                "En directo en Twitch", 
-                live.title,
-                f"https://twitch.tv/{live.user}", 
-                "icons/twitch.svg", 
-                False,
+            rx.box(
+                link_button(
+                    "En directo en Twitch", 
+                    live.title,
+                    f"https://twitch.tv/{live.user}", 
+                    "icons/twitch.svg", 
+                    False,
+                ),
+                class_name="animate__animated animate__bounceIn",
+                width="100%",
             ),
             link_button(
                 "Próximo directo", 

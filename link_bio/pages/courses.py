@@ -17,7 +17,17 @@ from link_bio.state.pagesstate import PagesState
     route=Route.COURSES.value,
     title=utils.courses_title,
     description=utils.courses_description,
-    on_load=PagesState.check_live
+    on_load=[
+        PagesState.check_live,
+        rx.call_script(
+            "Intl.DateTimeFormat().resolvedOptions().timeZone",
+            PagesState.set_timezone,
+        ),
+        rx.call_script(
+            "(navigator.language || navigator.languages[0])",
+            PagesState.set_locale,
+        ),
+    ]
 )
 
 def courses() -> rx.Component:
