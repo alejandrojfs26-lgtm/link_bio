@@ -9,7 +9,7 @@ from link_bio.styles.colors import Color as Color
 from link_bio.styles.fonts import FontWeight
 from link_bio.model.live import Live
 
-def header(details=True, live=Live(live=False, title=None, user="")) -> rx.Component:
+def header(details=True, live=Live(live=False, title=None, user=""), next_live: str = "") -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.box(
@@ -19,7 +19,7 @@ def header(details=True, live=Live(live=False, title=None, user="")) -> rx.Compo
         src="macbook.jpg",
     ),
     rx.cond(
-        live,
+        live.live,
         rx.box(
         width="14px",
         height="14px",
@@ -66,11 +66,20 @@ def header(details=True, live=Live(live=False, title=None, user="")) -> rx.Compo
         ),
         rx.cond(
             live.live,
-            link_button("En directo en Twitch", 
-            live.user, 
-            f"https://twitch.tv/{live.user}", 
-            "icons/twitch.svg", 
-            False),
+            link_button(
+                "En directo en Twitch", 
+                live.title,
+                f"https://twitch.tv/{live.user}", 
+                "icons/twitch.svg", 
+                False,
+            ),
+            link_button(
+                "Próximo directo", 
+                next_live,
+                "#", 
+                "icons/twitch.svg", 
+                False,
+            ),
         ),
         rx.text(
             "Soy ingeniero de software y divulgador. Te enseño programación e inteligencia artificial desde cero. Aquí podrás encontrar todos mis enlaces de interés ¡Bienvenid@!",

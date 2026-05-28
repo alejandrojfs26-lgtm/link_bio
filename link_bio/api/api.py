@@ -1,10 +1,13 @@
 from starlette.requests import Request
 from starlette.responses import Response, JSONResponse
 from .TwitchAPI import TwitchAPI
+from .configcat import ConfigCatAPI
 from .SupabaseAPI import SupabaseAPI
+from link_bio.model.featured import Featured
 
-SUPABASE_API = SupabaseAPI()
 TWITCH_API = TwitchAPI()
+CONFIGCAT_API = ConfigCatAPI()
+SUPABASE_API = SupabaseAPI()
 
 def hello_content() -> str:
     return "Hola"
@@ -21,6 +24,8 @@ async def live(request: Request) -> JSONResponse:
     return JSONResponse(content={"live": live_status.live, "title": live_status.title})
 
 
-async def featured() -> JSONResponse:
-    return JSONResponse(SUPABASE_API.featured())
+async def schedule() -> dict:
+    return CONFIGCAT_API.schedule()
 
+async def featured() -> list[Featured]:
+    return SUPABASE_API.featured()

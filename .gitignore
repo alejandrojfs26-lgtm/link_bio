@@ -9,4 +9,4 @@ venv/
 frontend.zip
 .vscode/
 .vercel
-.env  
+.env

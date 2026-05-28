@@ -1,9 +1,12 @@
 import reflex as rx
 from link_bio.components.link_button import link_button
 from link_bio.components.title import title
+from link_bio.components.featured_links import featured_links
 from link_bio.styles.styles import Size as Size
 from link_bio.routes import Route
-def index_links(featured=[]) -> rx.Component:
+from link_bio.model.featured import Featured
+
+def index_links(featured: list[Featured]) -> rx.Component:
     return rx.vstack(
         title("Comunidad"),
         link_button(
@@ -18,26 +21,15 @@ def index_links(featured=[]) -> rx.Component:
         link_button("Discord", "Comunidad de desarrollo", "https://discord.gg/mouredev", "message_circle"),
         link_button("LinkedIn", "Perfil profesional", "https://linkedin.com/in/mouredev", "briefcase"),
         rx.cond(
-            featured.length() > 0,
-            title("Destacados"),
+            featured,
             rx.vstack(
-                title("destacado"),
+                title("Destacados"),
                 rx.foreach(
                     featured,
-                lambda item: rx.grid(
-                    rx.link(
-                        rx.image(
-                            src=item["image"],
-                        ),
-                        rx.text(
-                            item["title"],
-                        ),
-                        href=item["url"],
-                        is_external=True,
-                    )
-                )
+                    lambda item: featured_links(item),
+                ),
             ),
-        )),
+        ),
         title("Recursos"),
         link_button("GitHub", "Código abierto y proyectos", "https://github.com/mouredev", "code"),
         link_button("Blog", "Artículos técnicos", "https://mouredev.com/blog", "globe"),
