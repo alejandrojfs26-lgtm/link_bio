@@ -24,7 +24,7 @@ def footer() -> rx.Component:
             _hover={"color": Color.PRIMARY.value},
         ),
         rx.text(
-            "Desarrollador venezolano en España, construyendo con ☕ y código",
+            "Full-stack developer de México, construyendo con ☕ y código",
             font_size=Size.SMALL.value,
             color=TextColor.FOOTER.value,
         ),
