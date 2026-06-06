@@ -15,9 +15,9 @@ class PagesState(rx.State):
 
     async def check_live(self):
         try:
-            self.live = TWITCH_API.live("alejandrojfs26")
+            self.live = TWITCH_API.live("ohnePixel")
         except Exception:
-            self.live = Live(live=False, title=None, user="alejandrojfs26")
+            self.live = Live(live=False, title=None, user="ohnePixel")
 
         try:
             schedule_dict = await schedule()

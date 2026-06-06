@@ -81,9 +81,8 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
                 "icons/twitch.svg", 
                 False,
             ), 
-            on_mount=[PagesState.check_schedule,
-                      PagesState.check_live,
-                      PagesState.check_featured]    
+            on_mount=[PagesState.check_live,
+                      PagesState.featured_links]    
         ),
         rx.text(
             "Desarrollador full-stack apasionado por Python, IA y crear herramientas útiles. Aquí encontrarás mis proyectos y enlaces de interés.",
