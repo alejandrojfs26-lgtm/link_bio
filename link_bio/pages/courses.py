@@ -14,9 +14,9 @@ from link_bio.state.pagesstate import PagesState
     #pass
 
 @rx.page(
-    route=Route.COURSES.value,
-    title=utils.courses_title,
-    description=utils.courses_description,
+    route=Route.TECHS.value,
+    title=utils.techs_title,
+    description=utils.techs_description,
     on_load=[
         PagesState.check_live,
         rx.call_script(

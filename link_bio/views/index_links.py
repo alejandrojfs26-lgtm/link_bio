@@ -10,10 +10,10 @@ def index_links(featured: list[Featured]) -> rx.Component:
     return rx.vstack(
         title("Comunidad"),
         link_button(
-            "Cursos gratis", 
-            "Directos de programación", 
-            Route.COURSES.value, 
-            "icons/twitch.svg",
+            "Diseño tecnología usada (Reflex)", 
+            "Tecnologías y herramientas del proyecto", 
+            Route.TECHS.value, 
+            "icons/link.svg",
             is_external=False
         ),
         link_button("LinkedIn", "Perfil profesional", "https://linkedin.com/in/alejandro-fuentes-457595123", "briefcase"),

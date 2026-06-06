@@ -14,8 +14,8 @@ index_title="Alejandro | Page"
 index_description="Hola, mi nombre es Alejandro y te enseño programación e IA"
 
 
-courses_title="Alejandro | Cursos"
-courses_description="Hola, mi nombre es Alejandro y te enseño programación e IA"
+techs_title="Alejandro | Tecnologías"
+techs_description="Tecnologías y herramientas usadas en mis proyectos"
 
 
 from zoneinfo import ZoneInfo
