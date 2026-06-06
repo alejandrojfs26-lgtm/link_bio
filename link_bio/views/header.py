@@ -97,4 +97,5 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
         gap=Size.BIG.value,
         align_items="start",
         width="100%",
+        on_mount=[PagesState.featured_links],
     )
