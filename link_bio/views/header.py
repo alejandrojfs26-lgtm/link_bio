@@ -8,6 +8,7 @@ from link_bio.styles.colors import TextColor as TextColor
 from link_bio.styles.colors import Color as Color
 from link_bio.styles.fonts import FontWeight
 from link_bio.model.live import Live
+from link_bio.state.pagesstate import PagesState
 
 
 def header(details=True, live=Live(live=False, title=None, user=""), next_live: str = "") -> rx.Component:
@@ -38,15 +39,14 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
             rx.vstack(
                 title("Alejandro Fuentes"),
                 rx.text(
-                    "@mouredev",
+                    "@alejandrojfs26-lgtm",
                     margin_top=Size.ZERO.value,
                     color=TextColor.BODY.value,
                     font_weight=FontWeight.MEDIUM.value,
                 ),
                 rx.hstack(
-                    link_icon("https://twitch.tv/mouredev", "icons/twitch.svg"),
-                    link_icon("https://x.com/mouredev", "icons/twitter.svg"),
-                    link_icon("https://github.com/mouredev", "icons/twitch.svg"),
+                    link_icon("https://github.com/alejandrojfs26-lgtm", "icons/github.svg"),
+                    link_icon("https://linkedin.com/in/alejandro-fuentes-457595123", "icons/linkedin.svg"),
                     spacing="4",
                     align="center",
                 ),
@@ -58,25 +58,21 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
             details,
         rx.vstack(
         rx.flex(
-            info_text("+13", "años de experiencia"),
+            info_text("+3", "proyectos publicados"),
             rx.spacer(),
-            info_text("+50", "proyectos"),
+            info_text("Python", "lenguaje principal"),
             rx.spacer(),
-            info_text("+10K", "estudiantes"),
+            info_text("Full-stack", "en desarrollo"),
             width="100%",
         ),
         rx.cond(
             live.live,
-            rx.box(
-                link_button(
-                    "En directo en Twitch", 
-                    live.title,
-                    f"https://twitch.tv/{live.user}", 
-                    "icons/twitch.svg", 
-                    False,
-                ),
-                class_name="animate__animated animate__bounceIn",
-                width="100%",
+            link_button(
+                "En directo en Twitch", 
+                live.title,
+                f"https://twitch.tv/{live.user}", 
+                "icons/twitch.svg", 
+                False,
             ),
             link_button(
                 "Próximo directo", 
@@ -84,10 +80,13 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
                 "#", 
                 "icons/twitch.svg", 
                 False,
-            ),
+            ), 
+            on_mount=[PagesState.check_schedule,
+                      PagesState.check_live,
+                      PagesState.check_featured]    
         ),
         rx.text(
-            "Soy ingeniero de software y divulgador. Te enseño programación e inteligencia artificial desde cero. Aquí podrás encontrar todos mis enlaces de interés ¡Bienvenid@!",
+            "Desarrollador full-stack apasionado por Python, IA y crear herramientas útiles. Aquí encontrarás mis proyectos y enlaces de interés.",
             font_weight=FontWeight.LIGHT.value,
             font_size=Size.MEDIUM.value,
             color=TextColor.BODY.value,

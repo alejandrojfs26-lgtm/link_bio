@@ -16,10 +16,8 @@ def index_links(featured: list[Featured]) -> rx.Component:
             "icons/twitch.svg",
             is_external=False
         ),
-        link_button("YouTube", "Tutoriales y cursos gratis", "https://youtube.com/@mouredev", "circle_play"),
-        link_button("YouTube (canal secundario)", "Contenido extra", "https://youtube.com/@mouredevtv", "circle_play"),
-        link_button("Discord", "Comunidad de desarrollo", "https://discord.gg/mouredev", "message_circle"),
-        link_button("LinkedIn", "Perfil profesional", "https://linkedin.com/in/mouredev", "briefcase"),
+        link_button("LinkedIn", "Perfil profesional", "https://linkedin.com/in/alejandro-fuentes-457595123", "briefcase"),
+        link_button("GitHub", "Código abierto y proyectos", "https://github.com/alejandrojfs26-lgtm", "code"),
         rx.cond(
             featured,
             rx.vstack(
@@ -30,14 +28,11 @@ def index_links(featured: list[Featured]) -> rx.Component:
                 ),
             ),
         ),
-        title("Recursos"),
-        link_button("GitHub", "Código abierto y proyectos", "https://github.com/mouredev", "code"),
-        link_button("Blog", "Artículos técnicos", "https://mouredev.com/blog", "globe"),
         title("Contacto"),
         link_button(
-            "MyPublicInbox",
-            "Respuesta rápida",
-            "https://mypublicinbox.com/mouredev",
+            "Email",
+            "alejandrojfs26@gmail.com",
+            "mailto:alejandrojfs26@gmail.com",
             "mail",
         ),
         width="100%",

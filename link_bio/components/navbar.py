@@ -9,8 +9,8 @@ def navbar() -> rx.Component:
     return rx.hstack(
         rx.link(
         rx.heading(
-            rx.text.span("moure", color=Color.PRIMARY.value),
-            rx.text.span("dev", color=Color.SECONDARY.value),
+            rx.text.span("Alejandro", color=Color.PRIMARY.value),
+            rx.text.span("Fuentes", color=Color.SECONDARY.value),
             font_weight=FontWeight.BOLD.value,
             font_family=Font.LOGO.value,
             font_size=Size.LARGE.value,

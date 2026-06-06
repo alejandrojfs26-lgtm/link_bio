@@ -15,8 +15,8 @@ def footer() -> rx.Component:
             opacity="0.6",
         ),
         rx.link(
-            f"© 2014-{datetime.date.today().year} MoureDev by Brais Moure",
-            href="https://mouredev.com",
+            f"© {datetime.date.today().year} Alejandro Fuentes",
+            href="https://github.com/alejandrojfs26-lgtm",
             is_external=True,
             font_size=Size.MEDIUM.value,
             color=TextColor.FOOTER.value,
@@ -24,7 +24,7 @@ def footer() -> rx.Component:
             _hover={"color": Color.PRIMARY.value},
         ),
         rx.text(
-            "Building software with ♥ from Galicia to the world",
+            "Full-stack developer de México, construyendo con ☕ y código",
             font_size=Size.SMALL.value,
             color=TextColor.FOOTER.value,
         ),
