@@ -52,7 +52,7 @@ def chat_input() -> rx.Component:
         rx.button(
             rx.cond(
                 ChatState.loading,
-                rx.chakra.spinner(color=TextColor.HEADER.value),
+                rx.spinner(color=TextColor.HEADER.value),
                 rx.icon(tag="send", color=Color.PRIMARY.value),
             ),
             on_click=ChatState.send_message,
