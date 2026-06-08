@@ -1,7 +1,11 @@
 import base64
 import tempfile
 from translate import Translator
-from gtts import gTTS
+try:
+    from gtts import gTTS
+    HAS_TTS = True
+except ImportError:
+    HAS_TTS = False
 
 LANGUAGES = {
     "Inglés": "en",
@@ -17,6 +21,8 @@ def translate_text(text: str, target_lang: str, source_lang: str = "es") -> str:
 
 
 def text_to_speech_b64(text: str, lang: str) -> str:
+    if not HAS_TTS:
+        return ""
     tts = gTTS(text=text, lang=lang)
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as f:
         tts.save(f.name)

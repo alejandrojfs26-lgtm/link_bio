@@ -5,4 +5,3 @@ supabase==2.30.0
 configcat-client
 openai>=1.0.0
 translate>=3.6.1
-gtts>=2.5.0
