@@ -19,10 +19,10 @@ def chat_message(msg: dict) -> rx.Component:
         rx.box(
             rx.text(
                 msg["content"],
-                color=TextColor.HEADER.value if is_user else TextColor.BODY.value,
+                color=rx.cond(is_user, TextColor.HEADER.value, TextColor.BODY.value),
                 font_size=Size.DEFAULT.value,
             ),
-            bg=Color.PRIMARY.value if is_user else Color.CONTENT.value,
+            bg=rx.cond(is_user, Color.PRIMARY.value, Color.CONTENT.value),
             padding=Size.DEFAULT.value,
             border_radius="12px",
             border=f"1px solid {Color.BORDER.value}",
@@ -30,7 +30,7 @@ def chat_message(msg: dict) -> rx.Component:
             width="fit-content",
         ),
         width="100%",
-        justify="end" if is_user else "start",
+        justify=rx.cond(is_user, "end", "start"),
     )
 
 
