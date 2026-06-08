@@ -9,29 +9,43 @@ from link_bio.styles.colors import Color as Color
 from link_bio.styles.colors import TextColor as TextColor
 from link_bio.routes import Route
 from link_bio.state.pagesstate import PagesState
-from link_bio.state.translator_state import TranslatorState, TranslationItem
+from link_bio.state.translator_state import TranslatorState
+
+STT_SCRIPT = """(() => new Promise((resolve) => {
+    var r = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    r.lang = 'es-ES';
+    r.interimResults = false;
+    r.onresult = (e) => resolve(e.results[0][0].transcript);
+    r.start();
+}))()"""
 
 
-def translation_card(item: TranslationItem) -> rx.Component:
+
+def translation_card(item: dict) -> rx.Component:
+    tts_script = f"""var u=new SpeechSynthesisUtterance({item["text"]});u.lang={item["tts_code"]};u.rate=1.0;speechSynthesis.speak(u);"""
     return rx.box(
         rx.hstack(
             rx.vstack(
-                rx.text(item.lang, color=TextColor.HEADER.value, font_weight="bold"),
+                rx.text(item["name"], color=TextColor.HEADER.value, font_weight="bold"),
                 rx.text(
-                    item.text,
+                    item["text"],
                     color=TextColor.BODY.value,
                     font_size=Size.DEFAULT.value,
                 ),
                 width="100%",
                 gap=Size.SMALL.value,
             ),
-            rx.cond(
-                item.audio_b64,
-                rx.audio(
-                    url=f"data:audio/mp3;base64,{item.audio_b64}",
-                    width="2.5em",
-                    height="2.5em",
-                ),
+            rx.button(
+                rx.icon(tag="volume_2", color=Color.PRIMARY.value),
+                on_click=rx.call_script(tts_script),
+                bg="transparent",
+                border=f"1px solid {Color.BORDER.value}",
+                border_radius="50%",
+                padding=Size.SMALL.value,
+                width="2.5em",
+                height="2.5em",
+                cursor="pointer",
+                _hover={"border_color": Color.PRIMARY.value},
             ),
             width="100%",
             gap=Size.DEFAULT.value,
@@ -49,22 +63,49 @@ def translate_view() -> rx.Component:
     return rx.vstack(
         rx.heading("Traductor", color=TextColor.HEADER.value, font_size=Size.LARGE.value),
         rx.text(
-            "Traduce texto a varios idiomas con audio incluido",
+            "Escribe o usa el micrófono para traducir a varios idiomas",
             color=TextColor.BODY.value,
             font_size=Size.MEDIUM.value,
         ),
-        rx.text_area(
-            placeholder="Escribe algo en español...",
-            value=TranslatorState.source_text,
-            on_change=TranslatorState.set_source_text,
+        rx.hstack(
+            rx.text_area(
+                placeholder="Escribe algo en español...",
+                value=TranslatorState.source_text,
+                on_change=TranslatorState.set_source_text,
+                width="100%",
+                min_height="120px",
+                bg=Color.CONTENT.value,
+                border=f"1px solid {Color.BORDER.value}",
+                border_radius="12px",
+                padding=Size.DEFAULT.value,
+                color=TextColor.HEADER.value,
+                _placeholder={"color": TextColor.FOOTER.value},
+            ),
+            rx.vstack(
+                rx.button(
+                    rx.cond(
+                        TranslatorState.listening,
+                        rx.spinner(color=Color.PRIMARY.value),
+                        rx.icon(tag="mic", color=Color.PRIMARY.value),
+                    ),
+                    on_click=[
+                        TranslatorState.start_listening,
+                        rx.call_script(STT_SCRIPT, TranslatorState.set_recognized_text),
+                    ],
+                    bg=Color.CONTENT.value,
+                    border=f"1px solid {Color.BORDER.value}",
+                    border_radius="12px",
+                    padding=Size.SMALL.value,
+                    width="3em",
+                    height="3em",
+                    cursor="pointer",
+                    _hover={"border_color": Color.PRIMARY.value},
+                ),
+                align_items="center",
+            ),
+            gap=Size.SMALL.value,
             width="100%",
-            min_height="120px",
-            bg=Color.CONTENT.value,
-            border=f"1px solid {Color.BORDER.value}",
-            border_radius="12px",
-            padding=Size.DEFAULT.value,
-            color=TextColor.HEADER.value,
-            _placeholder={"color": TextColor.FOOTER.value},
+            align="start",
         ),
         rx.button(
             rx.cond(

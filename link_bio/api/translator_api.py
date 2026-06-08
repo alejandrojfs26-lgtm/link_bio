@@ -1,18 +1,11 @@
-import base64
-import tempfile
 from translate import Translator
-try:
-    from gtts import gTTS
-    HAS_TTS = True
-except ImportError:
-    HAS_TTS = False
 
-LANGUAGES = {
-    "Inglés": "en",
-    "Francés": "fr",
-    "Portugués": "pt",
-    "Alemán": "de",
-}
+LANGUAGES = [
+    {"name": "Inglés", "code": "en", "tts_code": "en-US"},
+    {"name": "Francés", "code": "fr", "tts_code": "fr-FR"},
+    {"name": "Portugués", "code": "pt", "tts_code": "pt-BR"},
+    {"name": "Alemán", "code": "de", "tts_code": "de-DE"},
+]
 
 
 def translate_text(text: str, target_lang: str, source_lang: str = "es") -> str:
@@ -20,20 +13,14 @@ def translate_text(text: str, target_lang: str, source_lang: str = "es") -> str:
     return translator.translate(text)
 
 
-def text_to_speech_b64(text: str, lang: str) -> str:
-    if not HAS_TTS:
-        return ""
-    tts = gTTS(text=text, lang=lang)
-    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as f:
-        tts.save(f.name)
-        with open(f.name, "rb") as af:
-            return base64.b64encode(af.read()).decode()
-
-
-def translate_all(text: str) -> dict[str, dict]:
-    results = {}
-    for name, code in LANGUAGES.items():
-        translated = translate_text(text, code)
-        audio_b64 = text_to_speech_b64(translated, code)
-        results[name] = {"text": translated, "audio_b64": audio_b64}
+def translate_all(text: str) -> list[dict]:
+    results = []
+    for lang in LANGUAGES:
+        translated = translate_text(text, lang["code"])
+        results.append({
+            "name": lang["name"],
+            "code": lang["code"],
+            "tts_code": lang["tts_code"],
+            "text": translated,
+        })
     return results
