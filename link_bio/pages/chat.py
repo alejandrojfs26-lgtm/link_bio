@@ -40,7 +40,6 @@ def chat_input() -> rx.Component:
             placeholder="Escribe tu mensaje...",
             value=ChatState.input_text,
             on_change=ChatState.set_input_text,
-            on_key_down=ChatState.send_message,
             width="100%",
             bg=Color.CONTENT.value,
             border=f"1px solid {Color.BORDER.value}",

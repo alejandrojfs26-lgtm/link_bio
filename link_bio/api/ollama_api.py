@@ -5,7 +5,7 @@ from openai import OpenAI
 dotenv.load_dotenv()
 
 GROQ_URL = "https://api.groq.com/openai/v1"
-GROQ_MODEL = "llama3-8b-8192"
+GROQ_MODEL = "llama-3.1-8b-instant"
 
 
 class ChatAPI:
@@ -23,7 +23,7 @@ class ChatAPI:
 
             if groq_key:
                 self._mode = "groq"
-                self._model = os.getenv("GROQ_MODEL", GROQ_MODEL)
+                self._model = os.getenv("GROQ_MODEL") or GROQ_MODEL
                 self._client = OpenAI(base_url=GROQ_URL, api_key=groq_key)
             elif ollama_url:
                 self._mode = "ollama"
