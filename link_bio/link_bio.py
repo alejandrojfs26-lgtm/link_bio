@@ -2,6 +2,8 @@ import reflex as rx
 import link_bio.styles.styles as styles
 from link_bio.pages.index import index
 from link_bio.pages.courses import courses
+from link_bio.pages.chat import chat
+from link_bio.pages.translate import translate
 from link_bio.api.api import hello, live
 
 

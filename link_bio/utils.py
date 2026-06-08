@@ -17,6 +17,12 @@ index_description="Hola, mi nombre es Alejandro y te enseño programación e IA"
 techs_title="Alejandro | Tecnologías"
 techs_description="Tecnologías y herramientas usadas en mis proyectos"
 
+chat_title="Alejandro | Chat con IA"
+chat_description="Chatea con un modelo de IA directamente desde tu navegador"
+
+translate_title="Alejandro | Traductor"
+translate_description="Traduce texto a varios idiomas con audio incluido"
+
 
 from zoneinfo import ZoneInfo
 

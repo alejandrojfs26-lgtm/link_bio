@@ -9,4 +9,7 @@ dependencies = [
     "reflex>=0.9.2.post1",
     "requests>=2.34.2",
     "supabase>=2.30.0",
+    "openai>=1.0.0",
+    "translate>=3.6.1",
+    "gtts>=2.5.0",
 ]

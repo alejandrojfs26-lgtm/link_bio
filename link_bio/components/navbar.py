@@ -1,6 +1,7 @@
 import reflex as rx
 from link_bio.styles.styles import Size as Size
 from link_bio.styles.colors import Color as Color
+from link_bio.styles.colors import TextColor as TextColor
 from link_bio.styles.fonts import Font, FontWeight
 from link_bio.routes import Route
 from link_bio.components.ant_components import float_button
@@ -8,14 +9,28 @@ from link_bio.components.ant_components import float_button
 def navbar() -> rx.Component:
     return rx.hstack(
         rx.link(
-        rx.heading(
-            rx.text.span("Alejandro", color=Color.PRIMARY.value),
-            rx.text.span("Fuentes", color=Color.SECONDARY.value),
-            font_weight=FontWeight.BOLD.value,
-            font_family=Font.LOGO.value,
-            font_size=Size.LARGE.value,
+            rx.heading(
+                rx.text.span("Alejandro", color=Color.PRIMARY.value),
+                rx.text.span("Fuentes", color=Color.SECONDARY.value),
+                font_weight=FontWeight.BOLD.value,
+                font_family=Font.LOGO.value,
+                font_size=Size.LARGE.value,
+            ),
+            href=Route.INDEX.value
         ),
-        href=Route.INDEX.value
+        rx.hstack(
+            rx.link(
+                rx.text("Chat", color=TextColor.BODY.value, font_size=Size.SMALL.value),
+                href=Route.CHAT.value,
+                _hover={"color": Color.PRIMARY.value},
+            ),
+            rx.link(
+                rx.text("Traductor", color=TextColor.BODY.value, font_size=Size.SMALL.value),
+                href=Route.TRANSLATE.value,
+                _hover={"color": Color.PRIMARY.value},
+            ),
+            spacing="4",
+            margin_left="auto",
         ),
         float_button(
             icon_src="icons/twitch.svg",

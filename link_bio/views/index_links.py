@@ -8,6 +8,21 @@ from link_bio.model.featured import Featured
 
 def index_links(featured: list[Featured]) -> rx.Component:
     return rx.vstack(
+        title("Herramientas"),
+        link_button(
+            "Chat con IA",
+            "Chatea con un modelo de IA directamente desde tu navegador",
+            Route.CHAT.value,
+            "message_square",
+            is_external=False
+        ),
+        link_button(
+            "Traductor",
+            "Traduce texto a varios idiomas con audio incluido",
+            Route.TRANSLATE.value,
+            "languages",
+            is_external=False
+        ),
         title("Comunidad"),
         link_button(
             "Diseño tecnología usada (Reflex)", 
