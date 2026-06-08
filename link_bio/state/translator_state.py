@@ -13,9 +13,18 @@ class TranslatorState(rx.State):
 
     def play_tts(self, text: str, lang: str):
         safe = text.replace("\\", "\\\\").replace("'", "\\'").replace("\n", "\\n")
-        yield rx.call_script(
-            f"var u=new SpeechSynthesisUtterance();u.text='{safe}';u.lang='{lang}';speechSynthesis.speak(u);"
+        js = (
+            "var u=new SpeechSynthesisUtterance();"
+            f"u.text='{safe}';u.lang='{lang}';u.rate=1.0;"
+            "var vl=speechSynthesis.getVoices().filter(function(v){return v.lang.startsWith(u.lang)});"
+            "var g=vl.filter(function(v){return v.name.indexOf('Google')>-1});"
+            "if(g.length>0){u.voice=g[0]}else{"
+            "var m=vl.filter(function(v){return v.name.indexOf('Microsoft')>-1});"
+            "if(m.length>0){u.voice=m[0]}else if(vl.length>0){u.voice=vl[0]}"
+            "}"
+            "speechSynthesis.speak(u);"
         )
+        yield rx.call_script(js)
 
     async def listen_speech(self):
         self.listening = True
