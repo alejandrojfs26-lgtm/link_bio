@@ -11,18 +11,7 @@ from link_bio.routes import Route
 from link_bio.state.pagesstate import PagesState
 from link_bio.state.translator_state import TranslatorState
 
-STT_SCRIPT = """(() => new Promise((resolve) => {
-    var r = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    r.lang = 'es-ES';
-    r.interimResults = false;
-    r.onresult = (e) => resolve(e.results[0][0].transcript);
-    r.start();
-}))()"""
-
-
-
 def translation_card(item: dict) -> rx.Component:
-    tts_script = f"""var u=new SpeechSynthesisUtterance();u.text={item["text"]};u.lang={item["tts_code"]};speechSynthesis.speak(u);"""
     return rx.box(
         rx.hstack(
             rx.vstack(
@@ -37,7 +26,7 @@ def translation_card(item: dict) -> rx.Component:
             ),
             rx.button(
                 rx.icon(tag="play", color=Color.PRIMARY.value),
-                on_click=rx.call_script(tts_script),
+                on_click=TranslatorState.play_tts(item["text"], item["tts_code"]),
                 bg="transparent",
                 border=f"1px solid {Color.BORDER.value}",
                 border_radius="50%",
@@ -91,10 +80,7 @@ def translate_view() -> rx.Component:
                         rx.spinner(color=Color.PRIMARY.value),
                         rx.icon(tag="mic", color=Color.PRIMARY.value),
                     ),
-                    on_click=[
-                        TranslatorState.start_listening,
-                        rx.call_script(STT_SCRIPT, TranslatorState.set_recognized_text),
-                    ],
+                    on_click=TranslatorState.listen_speech,
                     bg=Color.CONTENT.value,
                     border=f"1px solid {Color.BORDER.value}",
                     border_radius="12px",

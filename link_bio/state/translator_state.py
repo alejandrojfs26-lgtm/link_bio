@@ -11,12 +11,19 @@ class TranslatorState(rx.State):
     def set_source_text(self, value: str):
         self.source_text = value
 
-    def start_listening(self):
-        self.listening = True
+    def play_tts(self, text: str, lang: str):
+        safe = text.replace("\\", "\\\\").replace("'", "\\'").replace("\n", "\\n")
+        yield rx.call_script(
+            f"var u=new SpeechSynthesisUtterance();u.text='{safe}';u.lang='{lang}';speechSynthesis.speak(u);"
+        )
 
-    def set_recognized_text(self, text: str):
-        self.source_text = text
-        self.listening = False
+    async def listen_speech(self):
+        self.listening = True
+        yield
+        yield rx.call_script(
+            "(()=>new Promise(r=>{var sr=new (window.SpeechRecognition||window.webkitSpeechRecognition)();sr.lang='es-ES';sr.interimResults=false;sr.onresult=e=>r(e.results[0][0].transcript);sr.start()}))()",
+            TranslatorState.set_recognized_text,
+        )
 
     def translate(self):
         if not self.source_text.strip():
