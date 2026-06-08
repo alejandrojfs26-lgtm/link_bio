@@ -61,8 +61,9 @@ def chat_input() -> rx.Component:
             border=f"1px solid {Color.BORDER.value}",
             border_radius="12px",
             padding="0",
-            min_width="3em",
+            width="3em",
             height="3em",
+            min_width="3em",
             display="flex",
             align_items="center",
             justify_content="center",
@@ -70,6 +71,19 @@ def chat_input() -> rx.Component:
         ),
         gap=Size.SMALL.value,
         width="100%",
+    )
+
+
+def chat_area() -> rx.Component:
+    return rx.box(
+        rx.foreach(ChatState.messages, chat_message),
+        width="100%",
+        height="400px",
+        overflow_y="auto",
+        padding=Size.DEFAULT.value,
+        bg=Color.BACKGROUND.value,
+        border_radius="12px",
+        border=f"1px solid {Color.BORDER.value}",
     )
 
 
@@ -98,19 +112,7 @@ def chat_view() -> rx.Component:
             justify="between",
             width="100%",
         ),
-        rx.box(
-            rx.foreach(
-                ChatState.messages,
-                chat_message,
-            ),
-            width="100%",
-            height="400px",
-            overflow_y="auto",
-            padding=Size.SMALL.value,
-            bg=Color.BACKGROUND.value,
-            border_radius="12px",
-            border=f"1px solid {Color.BORDER.value}",
-        ),
+        chat_area(),
         chat_input(),
         width="100%",
         gap=Size.MEDIUM.value,
