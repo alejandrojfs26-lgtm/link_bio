@@ -9,42 +9,39 @@ from link_bio.styles.colors import Color as Color
 from link_bio.styles.colors import TextColor as TextColor
 from link_bio.routes import Route
 from link_bio.state.pagesstate import PagesState
-from link_bio.state.translator_state import TranslatorState
+from link_bio.state.translator_state import TranslatorState, TranslationItem
 
 
-def translation_card(lang_name: str) -> rx.Component:
-    return rx.cond(
-        TranslatorState.translations[lang_name],
-        rx.box(
-            rx.hstack(
-                rx.vstack(
-                    rx.text(lang_name, color=TextColor.HEADER.value, font_weight="bold"),
-                    rx.text(
-                        TranslatorState.translations[lang_name]["text"],
-                        color=TextColor.BODY.value,
-                        font_size=Size.DEFAULT.value,
-                    ),
-                    width="100%",
-                    gap=Size.SMALL.value,
-                ),
-                rx.cond(
-                    TranslatorState.translations[lang_name]["audio_b64"],
-                    rx.audio(
-                        url=f"data:audio/mp3;base64,{TranslatorState.translations[lang_name]['audio_b64']}",
-                        width="2.5em",
-                        height="2.5em",
-                    ),
+def translation_card(item: TranslationItem) -> rx.Component:
+    return rx.box(
+        rx.hstack(
+            rx.vstack(
+                rx.text(item.lang, color=TextColor.HEADER.value, font_weight="bold"),
+                rx.text(
+                    item.text,
+                    color=TextColor.BODY.value,
+                    font_size=Size.DEFAULT.value,
                 ),
                 width="100%",
-                gap=Size.DEFAULT.value,
-                align="center",
+                gap=Size.SMALL.value,
             ),
-            bg=Color.CONTENT.value,
-            border=f"1px solid {Color.BORDER.value}",
-            border_radius="12px",
-            padding=Size.DEFAULT.value,
+            rx.cond(
+                item.audio_b64,
+                rx.audio(
+                    url=f"data:audio/mp3;base64,{item.audio_b64}",
+                    width="2.5em",
+                    height="2.5em",
+                ),
+            ),
             width="100%",
+            gap=Size.DEFAULT.value,
+            align="center",
         ),
+        bg=Color.CONTENT.value,
+        border=f"1px solid {Color.BORDER.value}",
+        border_radius="12px",
+        padding=Size.DEFAULT.value,
+        width="100%",
     )
 
 
@@ -84,11 +81,11 @@ def translate_view() -> rx.Component:
             _hover={"bg": Color.SECONDARY.value},
         ),
         rx.cond(
-            TranslatorState.translations,
+            TranslatorState.translations.length() > 0,
             rx.vstack(
                 rx.foreach(
                     TranslatorState.translations,
-                    lambda kv: translation_card(kv[0]),
+                    translation_card,
                 ),
                 width="100%",
                 gap=Size.MEDIUM.value,
