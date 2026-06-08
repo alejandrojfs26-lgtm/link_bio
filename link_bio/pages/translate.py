@@ -72,7 +72,7 @@ def translate_view() -> rx.Component:
         rx.button(
             rx.cond(
                 TranslatorState.loading,
-                rx.chakra.spinner(color=TextColor.HEADER.value),
+                rx.spinner(color=TextColor.HEADER.value),
                 rx.text("Traducir", color=TextColor.HEADER.value),
             ),
             on_click=TranslatorState.translate,

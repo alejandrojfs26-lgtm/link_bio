@@ -7,6 +7,9 @@ class TranslatorState(rx.State):
     translations: dict = {}
     loading: bool = False
 
+    def set_source_text(self, value: str):
+        self.source_text = value
+
     def translate(self):
         if not self.source_text.strip():
             return
