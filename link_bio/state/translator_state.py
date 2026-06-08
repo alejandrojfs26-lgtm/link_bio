@@ -26,11 +26,18 @@ class TranslatorState(rx.State):
         )
         yield rx.call_script(js)
 
-    async def listen_speech(self):
+    def listen_speech(self):
         self.listening = True
-        yield
         yield rx.call_script(
-            "(()=>new Promise(r=>{var sr=new (window.SpeechRecognition||window.webkitSpeechRecognition)();sr.lang='es-ES';sr.interimResults=false;sr.onresult=e=>r(e.results[0][0].transcript);sr.start()}))()",
+            "new Promise(function(r){"
+            "var SR=window.SpeechRecognition||window.webkitSpeechRecognition;"
+            "if(!SR){r('');return;}"
+            "var sr=new SR();sr.lang='es-ES';sr.interimResults=false;"
+            "sr.onresult=function(e){r(e.results[0][0].transcript)};"
+            "sr.onerror=function(e){r('')};"
+            "sr.start();"
+            "setTimeout(function(){sr.abort();r('')},8000)"
+            "})",
             TranslatorState.set_recognized_text,
         )
 
