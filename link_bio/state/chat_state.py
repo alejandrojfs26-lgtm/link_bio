@@ -7,6 +7,9 @@ class ChatState(rx.State):
     input_text: str = ""
     loading: bool = False
 
+    def set_input_text(self, value: str):
+        self.input_text = value
+
     def send_message(self):
         if not self.input_text.strip():
             return
