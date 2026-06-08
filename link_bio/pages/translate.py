@@ -125,6 +125,8 @@ def translate_view() -> rx.Component:
             ),
         ),
         width="100%",
+        flex="1",
+        min_height="0",
         gap=Size.MEDIUM.value,
     )
 
@@ -141,15 +143,16 @@ def translate() -> rx.Component:
     return rx.box(
         utils.lang(),
         navbar(),
-        rx.center(
-            rx.vstack(
-                header(details=False, live=PagesState.live),
-                translate_view(),
-                max_width=styles.MAX_WIDTH,
-                width="100%",
-                margin_y=Size.BIG.value,
-                padding=Size.BIG.value,
-            ),
+        rx.vstack(
+            header(details=False, live=PagesState.live),
+            translate_view(),
+            footer(),
+            height="100dvh",
+            width="100%",
+            max_width=styles.MAX_WIDTH,
+            margin_x="auto",
+            padding_x=Size.BIG.value,
+            padding_y=Size.DEFAULT.value,
+            spacing="0",
         ),
-        footer(),
     )
