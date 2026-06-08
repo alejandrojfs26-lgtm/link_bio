@@ -22,7 +22,7 @@ STT_SCRIPT = """(() => new Promise((resolve) => {
 
 
 def translation_card(item: dict) -> rx.Component:
-    tts_script = f"""var u=new SpeechSynthesisUtterance({item["text"]});u.lang={item["tts_code"]};u.rate=1.0;speechSynthesis.speak(u);"""
+    tts_script = f"""var u=new SpeechSynthesisUtterance();u.text={item["text"]};u.lang={item["tts_code"]};speechSynthesis.speak(u);"""
     return rx.box(
         rx.hstack(
             rx.vstack(
@@ -36,14 +36,17 @@ def translation_card(item: dict) -> rx.Component:
                 gap=Size.SMALL.value,
             ),
             rx.button(
-                rx.icon(tag="volume_2", color=Color.PRIMARY.value),
+                rx.icon(tag="play", color=Color.PRIMARY.value),
                 on_click=rx.call_script(tts_script),
                 bg="transparent",
                 border=f"1px solid {Color.BORDER.value}",
                 border_radius="50%",
-                padding=Size.SMALL.value,
+                padding="0",
                 width="2.5em",
                 height="2.5em",
+                display="flex",
+                align_items="center",
+                justify_content="center",
                 cursor="pointer",
                 _hover={"border_color": Color.PRIMARY.value},
             ),
@@ -95,9 +98,12 @@ def translate_view() -> rx.Component:
                     bg=Color.CONTENT.value,
                     border=f"1px solid {Color.BORDER.value}",
                     border_radius="12px",
-                    padding=Size.SMALL.value,
+                    padding="0",
                     width="3em",
                     height="3em",
+                    display="flex",
+                    align_items="center",
+                    justify_content="center",
                     cursor="pointer",
                     _hover={"border_color": Color.PRIMARY.value},
                 ),
