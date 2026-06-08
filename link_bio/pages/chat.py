@@ -35,41 +35,46 @@ def chat_message(msg: dict) -> rx.Component:
 
 
 def chat_input() -> rx.Component:
-    return rx.hstack(
-        rx.input(
-            placeholder="Escribe tu mensaje...",
-            value=ChatState.input_text,
-            on_change=ChatState.set_input_text,
-            width="100%",
-            height="3em",
-            bg=Color.CONTENT.value,
-            border=f"1px solid {Color.BORDER.value}",
-            border_radius="12px",
-            padding_x=Size.DEFAULT.value,
-            padding_y="0",
-            style={"color": "#FFFFFF", "caret_color": "#FFFFFF"},
-            _placeholder={"color": "#6B6B80"},
-        ),
-        rx.button(
-            rx.cond(
-                ChatState.loading,
-                rx.spinner(color=TextColor.HEADER.value),
-                rx.icon(tag="send", color=Color.PRIMARY.value),
+    return rx.form(
+        rx.hstack(
+            rx.input(
+                placeholder="Escribe tu mensaje...",
+                value=ChatState.input_text,
+                on_change=ChatState.set_input_text,
+                name="mensaje",
+                width="100%",
+                height="3em",
+                bg=Color.CONTENT.value,
+                border=f"1px solid {Color.BORDER.value}",
+                border_radius="12px",
+                padding_x=Size.DEFAULT.value,
+                padding_y="0",
+                style={"color": "#FFFFFF", "caret_color": "#FFFFFF"},
+                _placeholder={"color": "#6B6B80"},
             ),
-            on_click=ChatState.send_message,
-            bg=Color.CONTENT.value,
-            border=f"1px solid {Color.BORDER.value}",
-            border_radius="12px",
-            padding="0",
-            width="3em",
-            height="3em",
-            min_width="3em",
-            display="flex",
-            align_items="center",
-            justify_content="center",
-            cursor="pointer",
+            rx.button(
+                rx.cond(
+                    ChatState.loading,
+                    rx.spinner(color=TextColor.HEADER.value),
+                    rx.icon(tag="send", color=Color.PRIMARY.value),
+                ),
+                type="submit",
+                bg=Color.CONTENT.value,
+                border=f"1px solid {Color.BORDER.value}",
+                border_radius="12px",
+                padding="0",
+                width="3em",
+                height="3em",
+                min_width="3em",
+                display="flex",
+                align_items="center",
+                justify_content="center",
+                cursor="pointer",
+            ),
+            gap=Size.SMALL.value,
+            width="100%",
         ),
-        gap=Size.SMALL.value,
+        on_submit=ChatState.send_message,
         width="100%",
     )
 
@@ -77,8 +82,10 @@ def chat_input() -> rx.Component:
 def chat_area() -> rx.Component:
     return rx.box(
         rx.foreach(ChatState.messages, chat_message),
+        id="chat-msgs",
         width="100%",
-        height="400px",
+        flex="1",
+        min_height="0",
         overflow_y="auto",
         padding=Size.DEFAULT.value,
         bg=Color.BACKGROUND.value,
@@ -115,6 +122,8 @@ def chat_view() -> rx.Component:
         chat_area(),
         chat_input(),
         width="100%",
+        flex="1",
+        min_height="0",
         gap=Size.MEDIUM.value,
     )
 
@@ -131,15 +140,16 @@ def chat() -> rx.Component:
     return rx.box(
         utils.lang(),
         navbar(),
-        rx.center(
-            rx.vstack(
-                header(details=False, live=PagesState.live),
-                chat_view(),
-                max_width=styles.MAX_WIDTH,
-                width="100%",
-                margin_y=Size.BIG.value,
-                padding=Size.BIG.value,
-            ),
+        rx.vstack(
+            header(details=False, live=PagesState.live),
+            chat_view(),
+            footer(),
+            height="100dvh",
+            width="100%",
+            max_width=styles.MAX_WIDTH,
+            margin_x="auto",
+            padding_x=Size.BIG.value,
+            padding_y=Size.DEFAULT.value,
+            spacing="0",
         ),
-        footer(),
     )

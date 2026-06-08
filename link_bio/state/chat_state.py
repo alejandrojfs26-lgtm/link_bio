@@ -10,15 +10,17 @@ class ChatState(rx.State):
     def set_input_text(self, value: str):
         self.input_text = value
 
-    def send_message(self):
-        if not self.input_text.strip():
+    def send_message(self, form_data: dict = None):
+        text = self.input_text.strip()
+        if not text:
             return
 
-        self.messages.append({"role": "user", "content": self.input_text})
+        self.messages.append({"role": "user", "content": text})
         self.input_text = ""
         self.loading = True
 
         yield
+        yield rx.call_script("setTimeout(function(){var e=document.getElementById('chat-msgs');if(e)e.scrollTop=e.scrollHeight;},50)")
 
         try:
             api_messages = [m for m in self.messages if m["role"] in ("user", "assistant")]
@@ -34,6 +36,7 @@ class ChatState(rx.State):
             })
 
         self.loading = False
+        yield rx.call_script("setTimeout(function(){var e=document.getElementById('chat-msgs');if(e)e.scrollTop=e.scrollHeight;},50)")
 
     def clear_chat(self):
         self.messages = []
