@@ -1,62 +1,52 @@
-# Alejandro Fuentes — Link in Bio
+# link_bio
 
-Página web personal tipo link-in-bio construida con [Reflex](https://reflex.dev/) (Python), que muestra enlaces a mis perfiles profesionales, proyectos destacados y más.
+Pagina web personal tipo link-in-bio hecha con [Reflex](https://reflex.dev/).
 
-## Tecnologías
+## Que hace
 
-- **Reflex** — Framework web Python para frontend y backend
-- **Supabase** — Base de datos para contenido dinámico
-- **Twitch API** — Detección de estado en vivo
-- **ConfigCat** — Feature flags para horarios dinámicos
-- **Vercel** — Deploy del frontend
-- **Railway** — Deploy del backend
+- Muestra mis perfiles (GitHub, LinkedIn) y proyectos destacados
+- Detecta si estoy en vivo en Twitch y muestra el horario del siguiente stream
+- Traductor de texto a varios idiomas con reproduccion de audio
+- Chat basico (conecta a un modelo externo para responder)
 
-## Características
+## Como funciona
 
-- Enlaces a redes sociales y perfiles profesionales
-- Detección de live en Twitch
-- Sección de contenido destacado desde Supabase
-- Horarios dinámicos con countdown
-- Diseño responsive
+**Frontend:** Reflex genera HTML/CSS/JS desde Python y lo despliega en Vercel.
 
-## Desarrollo local
+**Backend:** La API corre en Railway dentro de un contenedor Docker. Maneja las llamadas a Twitch, Supabase y el chat.
+
+**Integraciones:**
+- Twitch API — estado en vivo
+- Supabase — contenido destacado
+- ConfigCat — horarios del stream
+- Groq — respuestas del chat
+
+## Correr local
 
 ```bash
-# Clonar
 git clone https://github.com/alejandrojfs26-lgtm/link_bio.git
 cd link_bio
-
-# Entorno virtual
 python -m venv .venv
 source .venv/bin/activate
-
-# Dependencias
 pip install -r requirements.txt
-
-# Variables de entorno (crear .env)
 cp .env.example .env
-
-# Iniciar servidor de desarrollo
 reflex run
 ```
 
 ## Variables de entorno
 
-| Variable | Descripción |
+| Variable | Descripcion |
 |---|---|
-| `TWITCH_CLIENT_ID` | Client ID de Twitch API |
-| `TWITCH_CLIENT_SECRET` | Client Secret de Twitch API |
+| `TWITCH_CLIENT_ID` | Client ID de Twitch |
+| `TWITCH_CLIENT_SECRET` | Client Secret de Twitch |
 | `SUPABASE_URL` | URL de Supabase |
-| `SUPABASE_PUBLISHABLE_KEY` | API Key de Supabase |
-| `CONFIGCAT_API_KEY` | API Key de ConfigCat |
+| `SUPABASE_PUBLISHABLE_KEY` | Key de Supabase |
+| `CONFIGCAT_API_KEY` | Key de ConfigCat |
+| `GROQ_API_KEY` | Para el chat (opcional) |
 
 ## Deploy
 
-```bash
-reflex deploy
-```
-
-O manualmente a Vercel (frontend) y Railway (backend).
+El frontend se despliega solo en Vercel via GitHub Actions. El backend esta en Railway con Dockerfile.
 
 ## Licencia
 
