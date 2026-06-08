@@ -1,5 +1,5 @@
 import reflex as rx
-from link_bio.api.ollama_api import OLLAMA_API
+from link_bio.api.ollama_api import CHAT_API
 
 
 class ChatState(rx.State):
@@ -25,12 +25,12 @@ class ChatState(rx.State):
             if not any(m["role"] == "system" for m in api_messages):
                 api_messages.insert(0, {"role": "system", "content": "Eres un asistente muy util."})
 
-            response = OLLAMA_API.chat(api_messages)
+            response = CHAT_API.chat(api_messages)
             self.messages.append({"role": "assistant", "content": response})
-        except Exception:
+        except Exception as e:
             self.messages.append({
                 "role": "assistant",
-                "content": "No pude conectar con el modelo de IA. Asegúrate de que Ollama esté corriendo o configura OLLAMA_URL en el .env"
+                "content": f"No pude conectar con la IA: {e}. Configura GROQ_API_KEY (gratis en console.groq.com) en el .env"
             })
 
         self.loading = False

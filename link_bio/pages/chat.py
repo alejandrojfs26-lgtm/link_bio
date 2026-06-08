@@ -46,7 +46,7 @@ def chat_input() -> rx.Component:
             border=f"1px solid {Color.BORDER.value}",
             border_radius="12px",
             padding=Size.DEFAULT.value,
-            color=TextColor.HEADER.value,
+            _input={"color": TextColor.HEADER.value},
             _placeholder={"color": TextColor.FOOTER.value},
         ),
         rx.button(
