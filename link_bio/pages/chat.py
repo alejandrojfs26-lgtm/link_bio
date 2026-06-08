@@ -47,8 +47,8 @@ def chat_input() -> rx.Component:
             border_radius="12px",
             padding_x=Size.DEFAULT.value,
             padding_y="0",
-            color=TextColor.HEADER.value,
-            _placeholder={"color": TextColor.FOOTER.value},
+            style={"color": "#FFFFFF", "caret_color": "#FFFFFF"},
+            _placeholder={"color": "#6B6B80"},
         ),
         rx.button(
             rx.cond(
