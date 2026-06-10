@@ -2,8 +2,8 @@ from enum import Enum
 
 class Font(Enum):
     DEFAULT = "Inter"
-    TITLE = "Inter"
-    LOGO = "Inter"
+    TITLE = "Geist"
+    LOGO = "Geist"
 
 class FontWeight(Enum):
     LIGHT = "300"

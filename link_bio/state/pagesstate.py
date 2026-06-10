@@ -48,3 +48,15 @@ class PagesState(rx.State):
             self.featured_info = SUPABASE_API.featured()
         except Exception:
             self.featured_info = []
+
+    scrolled: bool = False
+    mobile_open: bool = False
+
+    def set_scrolled(self, scrolled: bool):
+        self.scrolled = scrolled
+
+    def toggle_mobile(self):
+        self.mobile_open = not self.mobile_open
+
+    def close_mobile(self):
+        self.mobile_open = False

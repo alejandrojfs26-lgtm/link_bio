@@ -15,27 +15,28 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
     return rx.vstack(
         rx.hstack(
             rx.box(
-    rx.avatar(
-        name="Alejandro Fuentes",
-        size="9",
-        src="macbook.jpg",
-    ),
-    rx.cond(
-        live.live,
-        rx.box(
-        width="14px",
-        height="14px",
-        bg=Color.PURPLE.value,
-        border_radius="50%",
-        border=Color.PURPLE.value,
-        position="absolute",
-        bottom="4px",
-        right="4px",
-        class_name="blink"
-    )),
-    position="relative",
-    display="inline-block",
-),
+                rx.avatar(
+                    name="Alejandro Fuentes",
+                    size="9",
+                    src="macbook.jpg",
+                ),
+                rx.cond(
+                    live.live,
+                    rx.box(
+                        width="14px",
+                        height="14px",
+                        bg=Color.PURPLE.value,
+                        border_radius="50%",
+                        border=f"2px solid {Color.BACKGROUND.value}",
+                        position="absolute",
+                        bottom="4px",
+                        right="4px",
+                        class_name="blink"
+                    ),
+                ),
+                position="relative",
+                display="inline-block",
+            ),
             rx.vstack(
                 title("Alejandro Fuentes"),
                 rx.text(
@@ -56,43 +57,42 @@ def header(details=True, live=Live(live=False, title=None, user=""), next_live: 
         ),
         rx.cond(
             details,
-        rx.vstack(
-        rx.flex(
-            info_text("+3", "proyectos publicados"),
-            rx.spacer(),
-            info_text("Python", "lenguaje principal"),
-            rx.spacer(),
-            info_text("Full-stack", "en desarrollo"),
-            width="100%",
-        ),
-        rx.cond(
-            live.live,
-            link_button(
-                "En directo en Twitch", 
-                live.title,
-                f"https://twitch.tv/{live.user}", 
-                "icons/twitch.svg", 
-                False,
+            rx.vstack(
+                rx.flex(
+                    info_text("+3", "proyectos publicados"),
+                    rx.spacer(),
+                    info_text("Python", "lenguaje principal"),
+                    rx.spacer(),
+                    info_text("Full-stack", "en desarrollo"),
+                    width="100%",
+                ),
+                rx.cond(
+                    live.live,
+                    link_button(
+                        "En directo en Twitch",
+                        live.title,
+                        f"https://twitch.tv/{live.user}",
+                        "icons/twitch.svg",
+                        False,
+                    ),
+                    link_button(
+                        "Próximo directo",
+                        next_live,
+                        "#",
+                        "icons/twitch.svg",
+                        False,
+                    ),
+                ),
+                rx.text(
+                    "Desarrollador full-stack apasionado por Python, IA y crear herramientas útiles. Aquí encontrarás mis proyectos y enlaces de interés.",
+                    font_weight=FontWeight.LIGHT.value,
+                    font_size=Size.MEDIUM.value,
+                    color=TextColor.BODY.value,
+                    line_height="1.6",
+                ),
+                width="100%",
+                gap=Size.BIG.value,
             ),
-            link_button(
-                "Próximo directo", 
-                next_live,
-                "#", 
-                "icons/twitch.svg", 
-                False,
-            ), 
-        ),
-        rx.text(
-            "Desarrollador full-stack apasionado por Python, IA y crear herramientas útiles. Aquí encontrarás mis proyectos y enlaces de interés.",
-            font_weight=FontWeight.LIGHT.value,
-            font_size=Size.MEDIUM.value,
-            color=TextColor.BODY.value,
-            line_height="1.6",
-        ),
-            width="100%",
-            gap=Size.BIG.value,
-        )
-        
         ),
         gap=Size.BIG.value,
         align_items="start",

@@ -7,3 +7,205 @@
 .blink {
     animation: blinker 1s linear infinite;
 }
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(16, 19, 102, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(16, 19, 102, 0.4); }
+    100% { box-shadow: 0 0 5px rgba(16, 19, 102, 0.2); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(16, 19, 102, 0.2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 19, 102, 0.4);
+}
+
+.chat-loader {
+  --color-one: #101366;
+  --color-two: #6a4cf5;
+  --color-three: rgba(16, 19, 102, 0.5);
+  --color-four: rgba(106, 76, 245, 0.5);
+  --color-five: rgba(16, 19, 102, 0.25);
+  --time-animation: 2s;
+  --size: 0.35;
+  position: relative;
+  border-radius: 50%;
+  transform: scale(var(--size));
+  transform-origin: top left;
+  box-shadow:
+    0 0 25px 0 var(--color-three),
+    0 20px 50px 0 var(--color-four);
+  animation: colorize calc(var(--time-animation) * 3) ease-in-out infinite;
+}
+
+.chat-loader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-top: solid 1px var(--color-one);
+  border-bottom: solid 1px var(--color-two);
+  background: linear-gradient(180deg, var(--color-five), var(--color-four));
+  box-shadow:
+    inset 0 10px 10px 0 var(--color-three),
+    inset 0 -10px 10px 0 var(--color-four);
+}
+
+.chat-loader .box {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(
+    180deg,
+    var(--color-one) 30%,
+    var(--color-two) 70%
+  );
+  mask: url(#clip-uiverse);
+  -webkit-mask: url(#clip-uiverse);
+}
+
+.chat-loader svg {
+  position: absolute;
+}
+
+.chat-loader svg #clip-uiverse {
+  filter: contrast(15);
+  animation: roundness calc(var(--time-animation) / 2) linear infinite;
+}
+
+.chat-loader svg #clip-uiverse polygon {
+  filter: blur(7px);
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(1) {
+  transform-origin: 75% 25%;
+  transform: rotate(90deg);
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(2) {
+  transform-origin: 50% 50%;
+  animation: chat-loader-rotation var(--time-animation) linear infinite reverse;
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(3) {
+  transform-origin: 50% 60%;
+  animation: chat-loader-rotation var(--time-animation) linear infinite;
+  animation-delay: calc(var(--time-animation) / -3);
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(4) {
+  transform-origin: 40% 40%;
+  animation: chat-loader-rotation var(--time-animation) linear infinite reverse;
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(5) {
+  transform-origin: 40% 40%;
+  animation: chat-loader-rotation var(--time-animation) linear infinite reverse;
+  animation-delay: calc(var(--time-animation) / -2);
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(6) {
+  transform-origin: 60% 40%;
+  animation: chat-loader-rotation var(--time-animation) linear infinite;
+}
+
+.chat-loader svg #clip-uiverse polygon:nth-child(7) {
+  transform-origin: 60% 40%;
+  animation: chat-loader-rotation var(--time-animation) linear infinite;
+  animation-delay: calc(var(--time-animation) / -1.5);
+}
+
+@keyframes chat-loader-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes roundness {
+  0% {
+    filter: contrast(15);
+  }
+  20% {
+    filter: contrast(3);
+  }
+  40% {
+    filter: contrast(3);
+  }
+  60% {
+    filter: contrast(15);
+  }
+  100% {
+    filter: contrast(15);
+  }
+}
+
+@keyframes beamOverlay {
+  0% { opacity: 0.05; }
+  50% { opacity: 0.15; }
+  100% { opacity: 0.05; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes colorize {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    filter: hue-rotate(-30deg);
+  }
+  40% {
+    filter: hue-rotate(-60deg);
+  }
+  60% {
+    filter: hue-rotate(-90deg);
+  }
+  80% {
+    filter: hue-rotate(-45deg);
+  }
+  100% {
+    filter: hue-rotate(0deg);
+  }
+}

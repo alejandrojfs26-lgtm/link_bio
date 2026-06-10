@@ -8,6 +8,7 @@ MAX_WIDTH = "600px"
 
 STYLESHEETS = [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&display=swap",
     "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
     "../assets/css/styles.css"
 ]
@@ -20,6 +21,9 @@ class Size(Enum):
     LARGE = "1.5em"
     BIG = "2em"
     VERYBIG = "3em"
+
+GLASS_BG = "rgba(13, 13, 20, 0.6)"
+GLASS_BORDER = "rgba(255, 255, 255, 0.06)"
 
 BASE_STYLE = {
     "font_family": Font.DEFAULT.value,
@@ -37,16 +41,18 @@ BASE_STYLE = {
         "padding": Size.SMALL.value,
         "border_radius": "12px",
         "color": TextColor.HEADER.value,
-        "background_color": Color.CONTENT.value,
+        "background": GLASS_BG,
+        "backdrop_filter": "blur(12px)",
+        "-webkit-backdrop-filter": "blur(12px)",
         "white_space": "normal",
         "text_align": "start",
-        "border": f"1px solid {Color.BORDER.value}",
+        "border": f"1px solid {GLASS_BORDER}",
         "transition": "all 0.3s ease",
         "_hover": {
-            "background_color": Color.SECONDARY.value,
+            "background": "rgba(0, 153, 255, 0.1)",
             "border_color": Color.PRIMARY.value,
             "transform": "translateY(-2px)",
-            "box_shadow": "0 8px 25px rgba(124, 91, 254, 0.15)",
+            "box_shadow": "0 8px 25px rgba(0, 153, 255, 0.12)",
         },
     },
     rx.link: {
@@ -84,3 +90,11 @@ button_body_style = dict(
     font_weight=FontWeight.LIGHT.value,
     color=TextColor.BODY.value,
 )
+
+glass_style = {
+    "background": GLASS_BG,
+    "backdrop_filter": "blur(12px)",
+    "-webkit-backdrop-filter": "blur(12px)",
+    "border": f"1px solid {GLASS_BORDER}",
+    "border_radius": "12px",
+}

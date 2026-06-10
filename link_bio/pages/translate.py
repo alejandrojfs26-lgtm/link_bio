@@ -2,6 +2,8 @@ import reflex as rx
 import link_bio.utils as utils
 from link_bio.components.footer import footer
 from link_bio.components.navbar import navbar
+from link_bio.components.ant_components import float_button
+from link_bio.components.animated_background import animated_background
 from link_bio.views.header import header
 import link_bio.styles.styles as styles
 from link_bio.styles.styles import Size as Size
@@ -25,7 +27,7 @@ def translation_card(item: dict) -> rx.Component:
                 gap=Size.SMALL.value,
             ),
             rx.button(
-                rx.icon(tag="play", color=Color.PRIMARY.value),
+                rx.icon(tag="play", color=TextColor.HEADER.value),
                 on_click=TranslatorState.play_tts(item["text"], item["tts_code"]),
                 bg="transparent",
                 border=f"1px solid {Color.BORDER.value}",
@@ -77,8 +79,8 @@ def translate_view() -> rx.Component:
                 rx.button(
                     rx.cond(
                         TranslatorState.listening,
-                        rx.spinner(color=Color.PRIMARY.value),
-                        rx.icon(tag="mic", color=Color.PRIMARY.value),
+                        rx.spinner(color=TextColor.HEADER.value),
+                        rx.icon(tag="mic", color=TextColor.HEADER.value),
                     ),
                     on_click=TranslatorState.listen_speech,
                     bg=Color.CONTENT.value,
@@ -139,17 +141,26 @@ def translate_view() -> rx.Component:
 )
 def translate() -> rx.Component:
     return rx.box(
-        utils.lang(),
-        navbar(),
-        rx.center(
-            rx.vstack(
-                header(details=False, live=PagesState.live),
-                translate_view(),
-                max_width=styles.MAX_WIDTH,
-                width="100%",
-                margin_y=Size.BIG.value,
-                padding=Size.BIG.value,
-            ),
+        animated_background(),
+        float_button(
+            icon_src="icons/twitch.svg",
+            href="https://youtube.com",
         ),
-        footer(),
+        rx.box(
+            utils.lang(),
+            navbar(),
+            rx.center(
+                rx.vstack(
+                    header(details=False, live=PagesState.live),
+                    translate_view(),
+                    max_width=styles.MAX_WIDTH,
+                    width="100%",
+                    margin_y=Size.BIG.value,
+                    padding=Size.BIG.value,
+                ),
+            ),
+            footer(),
+            position="relative",
+            z_index="1",
+        ),
     )

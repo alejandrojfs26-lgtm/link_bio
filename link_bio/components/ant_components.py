@@ -21,10 +21,11 @@ def float_button(icon_src: str = "icons/twitch.svg", href: str = "https://youtub
             display="flex",
             align_items="center",
             justify_content="center",
-            box_shadow="0 4px 12px rgba(0,0,0,0.3)",
+            box_shadow="0 0 20px rgba(16, 19, 102, 0.3)",
             _hover={
                 "bg": Color.SECONDARY.value,
                 "transform": "scale(1.1)",
+                "box_shadow": "0 0 30px rgba(16, 19, 102, 0.5)",
                 "transition": "all 0.2s ease",
             },
             z_index="999",

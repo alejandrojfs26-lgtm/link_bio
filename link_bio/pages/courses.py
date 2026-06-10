@@ -2,6 +2,8 @@ import reflex as rx
 import link_bio.utils as utils
 from link_bio.components.footer import footer
 from link_bio.components.navbar import navbar
+from link_bio.components.ant_components import float_button
+from link_bio.components.animated_background import animated_background
 from link_bio.views.header import header
 from link_bio.views.courses_links import courses_links
 from link_bio.views.sponsors import sponsors
@@ -32,18 +34,27 @@ from link_bio.state.pagesstate import PagesState
 
 def courses() -> rx.Component:
     return rx.box(
-        utils.lang(),
-        navbar(),
-        rx.center(
-            rx.vstack(
-                header(details=False, live=PagesState.live),
-                courses_links(),
-                sponsors(),
-                max_width=styles.MAX_WIDTH,
-                width="100%",
-                margin_y=Size.BIG.value,
-                padding=Size.BIG.value,
-            ),
+        animated_background(),
+        float_button(
+            icon_src="icons/twitch.svg",
+            href="https://youtube.com",
         ),
-        footer(),
+        rx.box(
+            utils.lang(),
+            navbar(),
+            rx.center(
+                rx.vstack(
+                    header(details=False, live=PagesState.live),
+                    courses_links(),
+                    sponsors(),
+                    max_width=styles.MAX_WIDTH,
+                    width="100%",
+                    margin_y=Size.BIG.value,
+                    padding=Size.BIG.value,
+                ),
+            ),
+            footer(),
+            position="relative",
+            z_index="1",
+        ),
     )

@@ -1,17 +1,18 @@
 import reflex as rx
 import link_bio.styles.styles as styles
 from link_bio.styles.styles import Size as Size
-from link_bio.styles.colors import Color as Color
+from link_bio.styles.colors import Color as Color, TextColor as TextColor
 
 def link_button(title: str, body: str, url: str, icon: str, is_external=True) -> rx.Component:
     icon_component = rx.image(
         src=icon,
         width="2em",
         height="2em",
+        opacity="0.9",
     ) if icon.endswith(".svg") or icon.endswith(".png") or icon.endswith(".jpg") else rx.icon(
         tag=icon,
         font_size=Size.LARGE.value,
-        color=Color.PRIMARY.value,
+        color=TextColor.HEADER.value,
     )
     return rx.link(
         rx.button(
