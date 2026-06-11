@@ -77,8 +77,8 @@ window.addEventListener('load', function() {
                 rx.hstack(
                     rx.link(
                         rx.heading(
-                        rx.text.span("Alejandro", color=TextColor.HEADER.value),
-                        rx.text.span("Fuentes", color=TextColor.HEADER.value),
+                            "AF",
+                            color=TextColor.HEADER.value,
                             font_family=Font.LOGO.value,
                             font_weight=FontWeight.BOLD.value,
                             font_size=Size.LARGE.value,
@@ -125,8 +125,8 @@ window.addEventListener('load', function() {
                     rx.hstack(
                         rx.link(
                             rx.heading(
-                                rx.text.span("Alejandro", color=TextColor.HEADER.value),
-                                rx.text.span("Fuentes", color=TextColor.HEADER.value),
+                                "AF",
+                                color=TextColor.HEADER.value,
                                 font_family=Font.LOGO.value,
                                 font_weight=FontWeight.BOLD.value,
                                 font_size="1.15rem",
@@ -214,12 +214,12 @@ window.addEventListener('load', function() {
             bg=rx.cond(
                 PagesState.mobile_open,
                 "rgba(5,5,8,0.95)",
-                rx.cond(PagesState.scrolled, "rgba(5,5,8,0.9)", "transparent"),
+                rx.cond(PagesState.scrolled, "rgba(5,5,8,0.9)", "rgba(5,5,8,0.85)"),
             ),
             backdrop_filter=rx.cond(
                 PagesState.mobile_open,
                 "blur(20px)",
-                rx.cond(PagesState.scrolled, "blur(16px)", "none"),
+                rx.cond(PagesState.scrolled, "blur(16px)", "blur(12px)"),
             ),
             transition="all 0.2s ease-out",
             padding_y="0",

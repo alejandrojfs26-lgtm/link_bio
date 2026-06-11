@@ -10,7 +10,7 @@ TECH_STACK = [
     ("Twitch", "#9146FF"),
     ("ConfigCat", "#1C7ED6"),
     ("Vercel", "#FFFFFF"),
-    ("Railway", "#0B0D0E"),
+    ("Railway", "#E0E0E0"),
     ("Docker", "#2496ED"),
 ]
 
