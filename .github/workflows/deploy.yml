@@ -23,6 +23,7 @@ jobs:
 
       - name: Install reflex & build frontend
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
           reflex init
           API_URL=https://linkbio-backend.up.railway.app/ reflex export --frontend-only
