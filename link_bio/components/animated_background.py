@@ -18,20 +18,17 @@ def animated_background() -> rx.Component:
         ),
         rx.script("""
 (function() {
-  var retries = 0;
-  function init() {
+  var _bg = window._bgBeams = window._bgBeams || {};
+
+  function start() {
     var canvas = document.getElementById('bg-beams');
-    if (!canvas) {
-      if (retries < 20) { retries++; setTimeout(init, 200); }
-      return;
-    }
-    if (canvas.dataset.beamReady) return;
-    canvas.dataset.beamReady = 'true';
+    if (!canvas) { if (!_bg.waiting) { _bg.waiting = true; setTimeout(start, 100); } return; }
+    _bg.waiting = false;
+    if (_bg.animId) { cancelAnimationFrame(_bg.animId); }
 
     var ctx = canvas.getContext('2d');
     var beams = [];
     var W, H;
-    var animId = null;
 
     function resize() {
       var dpr = window.devicePixelRatio || 1;
@@ -42,12 +39,9 @@ def animated_background() -> rx.Component:
       canvas.style.width = W + 'px';
       canvas.style.height = H + 'px';
       ctx.scale(dpr, dpr);
-
       var total = 20;
       beams = [];
-      for (var i = 0; i < total; i++) {
-        beams.push(createBeam(i, total));
-      }
+      for (var i = 0; i < total; i++) beams.push(createBeam(i, total));
     }
 
     function createBeam(index, total) {
@@ -80,7 +74,6 @@ def animated_background() -> rx.Component:
       ctx.save();
       ctx.translate(beam.x, beam.y);
       ctx.rotate((beam.angle * Math.PI) / 180);
-
       var po = beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2);
       var grad = ctx.createLinearGradient(0, 0, 0, beam.length);
       grad.addColorStop(0, 'hsla(' + beam.hue + ',80%,60%,0)');
@@ -89,7 +82,6 @@ def animated_background() -> rx.Component:
       grad.addColorStop(0.6, 'hsla(' + beam.hue + ',80%,60%,' + po + ')');
       grad.addColorStop(0.85, 'hsla(' + beam.hue + ',80%,60%,' + (po * 0.5) + ')');
       grad.addColorStop(1, 'hsla(' + beam.hue + ',80%,60%,0)');
-
       ctx.fillStyle = grad;
       ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
       ctx.restore();
@@ -98,7 +90,6 @@ def animated_background() -> rx.Component:
     function animate() {
       ctx.clearRect(0, 0, W, H);
       ctx.filter = 'blur(30px)';
-
       for (var i = 0; i < beams.length; i++) {
         var b = beams[i];
         b.y -= b.speed;
@@ -106,7 +97,7 @@ def animated_background() -> rx.Component:
         if (b.y + b.length < -100) resetBeam(b, i, beams.length);
         drawBeam(b);
       }
-      animId = requestAnimationFrame(animate);
+      _bg.animId = requestAnimationFrame(animate);
     }
 
     resize();
@@ -114,15 +105,21 @@ def animated_background() -> rx.Component:
     animate();
   }
 
-  function tryInit() { init(); }
+  function tryStart() { start(); }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tryInit);
+    document.addEventListener('DOMContentLoaded', tryStart);
   } else {
-    tryInit();
+    tryStart();
   }
-  window.addEventListener('pageshow', function(e) {
-    if (e.persisted) { setTimeout(tryInit, 50); }
+
+  var mo = new MutationObserver(function() {
+    if (document.getElementById('bg-beams')) start();
   });
+  mo.observe(document.body || document.documentElement, { childList: true, subtree: true });
+
+  window.addEventListener('pageshow', function(e) { if (e.persisted) setTimeout(tryStart, 50); });
+  window.addEventListener('popstate', function() { setTimeout(tryStart, 100); });
 })();
 """),
     )

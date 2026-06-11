@@ -24,6 +24,7 @@ def chat_message(msg: dict) -> rx.Component:
                 msg["content"],
                 color=rx.cond(is_user, TextColor.HEADER.value, TextColor.BODY.value),
                 font_size=Size.DEFAULT.value,
+                class_name=rx.cond(~is_user, "typewriter", ""),
             ),
             bg=rx.cond(is_user, Color.PRIMARY.value, Color.CONTENT.value),
             padding=Size.DEFAULT.value,

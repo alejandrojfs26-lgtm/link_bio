@@ -81,7 +81,7 @@ window.addEventListener('load', function() {
                             color=TextColor.HEADER.value,
                             font_family=Font.LOGO.value,
                             font_weight=FontWeight.BOLD.value,
-                            font_size=Size.LARGE.value,
+                            font_size=Size.DEFAULT.value,
                         ),
                         href=Route.INDEX.value,
                         _hover={"opacity": "0.8", "text_decoration": "none"},
@@ -118,7 +118,7 @@ window.addEventListener('load', function() {
                     padding_x="1rem",
                     align="center",
                 ),
-                height="56px",
+                height="44px",
             ),
             rx.mobile_and_tablet(
                 rx.box(
@@ -129,7 +129,7 @@ window.addEventListener('load', function() {
                                 color=TextColor.HEADER.value,
                                 font_family=Font.LOGO.value,
                                 font_weight=FontWeight.BOLD.value,
-                                font_size="1.15rem",
+                                font_size="1rem",
                             ),
                             href=Route.INDEX.value,
                             _hover={"opacity": "0.8", "text_decoration": "none"},
@@ -139,13 +139,13 @@ window.addEventListener('load', function() {
                             rx.cond(
                                 PagesState.mobile_open,
                                 rx.html(
-                                    '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">'
+                                    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">'
                                     '<line x1="18" y1="6" x2="6" y2="18"/>'
                                     '<line x1="6" y1="6" x2="18" y2="18"/>'
                                     '</svg>'
                                 ),
                                 rx.html(
-                                    '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">'
+                                    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">'
                                     '<line x1="3" y1="6" x2="21" y2="6"/>'
                                     '<line x1="3" y1="12" x2="21" y2="12"/>'
                                     '<line x1="3" y1="18" x2="21" y2="18"/>'
@@ -162,8 +162,8 @@ window.addEventListener('load', function() {
                             border="1px solid rgba(255,255,255,0.15)",
                             bg="transparent",
                             color=TextColor.HEADER.value,
-                            width="2.5rem",
-                            height="2.5rem",
+                            width="2rem",
+                            height="2rem",
                             padding="0",
                             display="flex",
                             align_items="center",
@@ -176,7 +176,7 @@ window.addEventListener('load', function() {
                         padding_x="1rem",
                         align="center",
                     ),
-                    height="56px",
+                    height="44px",
                 ),
                 rx.cond(
                     PagesState.mobile_open,
