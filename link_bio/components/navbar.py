@@ -32,7 +32,7 @@ def _nav_links() -> list[rx.Component]:
             on_mouse_enter=rx.call_script(f"moveNavCursor('nav-item-{label.lower()}')"),
             on_click=[
                 PagesState.close_mobile,
-                rx.call_script("document.body.style.overflow = ''"),
+                rx.call_script("document.body.style.overflow = ''; document.body.style.background = ''"),
             ],
         )
         for label, href in LINKS
@@ -155,7 +155,11 @@ window.addEventListener('load', function() {
                             on_click=[
                                 PagesState.toggle_mobile,
                                 rx.call_script(
-                                    "document.body.style.overflow = document.body.style.overflow === 'hidden' ? '' : 'hidden'"
+                                    """
+                                    var isHidden = document.body.style.overflow === 'hidden';
+                                    document.body.style.overflow = isHidden ? '' : 'hidden';
+                                    document.body.style.background = isHidden ? '' : '#050508';
+                                    """
                                 ),
                             ],
                             variant="outline",
