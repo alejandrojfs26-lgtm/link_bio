@@ -213,6 +213,7 @@ html {
 .typewriter {
   border-right: .15em solid orange;
   animation: blink-caret .75s step-end infinite;
+  display: inline;
 }
 
 @keyframes blink-caret {
