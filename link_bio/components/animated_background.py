@@ -113,8 +113,14 @@ def animated_background() -> rx.Component:
     tryStart();
   }
 
-  var mo = new MutationObserver(function() {
-    if (document.getElementById('bg-beams')) start();
+  var mo = new MutationObserver(function(muts) {
+    for (var m = 0; m < muts.length; m++) {
+      for (var n = 0; n < (muts[m].addedNodes || []).length; n++) {
+        if (muts[m].addedNodes[n].id === 'bg-beams' || muts[m].addedNodes[n].querySelector && muts[m].addedNodes[n].querySelector('#bg-beams')) {
+          start(); break;
+        }
+      }
+    }
   });
   mo.observe(document.body || document.documentElement, { childList: true, subtree: true });
 
