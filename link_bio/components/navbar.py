@@ -32,7 +32,7 @@ def _nav_links() -> list[rx.Component]:
             on_mouse_enter=rx.call_script(f"moveNavCursor('nav-item-{label.lower()}')"),
             on_click=[
                 PagesState.close_mobile,
-                rx.call_script("document.body.style.overflow = ''; document.body.style.background = ''"),
+                rx.call_script("document.body.style.overflow = ''; document.body.style.background = ''; document.documentElement.style.background = ''"),
             ],
         )
         for label, href in LINKS
@@ -158,7 +158,9 @@ window.addEventListener('load', function() {
                                     """
                                     var isHidden = document.body.style.overflow === 'hidden';
                                     document.body.style.overflow = isHidden ? '' : 'hidden';
-                                    document.body.style.background = isHidden ? '' : '#050508';
+                                    var bg = isHidden ? '' : '#050508';
+                                    document.body.style.background = bg;
+                                    document.documentElement.style.background = bg;
                                     """
                                 ),
                             ],
@@ -192,7 +194,7 @@ window.addEventListener('load', function() {
                             gap="0",
                         ),
                         position="fixed",
-                        top="56px",
+                        top="44px",
                         left="0",
                         right="0",
                         bottom="0",
