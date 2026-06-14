@@ -34,13 +34,8 @@ def index() -> rx.Component:
     return rx.box(
         animated_background(),
         float_button(
-            icon_src="icons/twitch.svg",
-            href="https://youtube.com",
-        ),
-        float_button(
             icon_src="icons/whatsapp.svg",
             href="https://wa.me/34644992100",
-            side="left",
             bg_color=Color.WHATSAPP.value,
             bg_hover=Color.WHATSAPP_HOVER.value,
         ),
