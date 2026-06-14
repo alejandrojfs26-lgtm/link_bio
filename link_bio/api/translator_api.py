@@ -1,5 +1,4 @@
-import time
-from translate import Translator
+from deep_translator import GoogleTranslator
 
 LANGUAGES = [
     {"name": "Inglés", "code": "en", "tts_code": "en-US"},
@@ -8,26 +7,21 @@ LANGUAGES = [
     {"name": "Alemán", "code": "de", "tts_code": "de-DE"},
 ]
 
-_last_request = 0.0
+_translators = {}
 
 
-def translate_text(text: str, target_lang: str, source_lang: str = "es") -> str:
-    global _last_request
-    elapsed = time.time() - _last_request
-    if elapsed < 0.5:
-        time.sleep(0.5 - elapsed)
-    _last_request = time.time()
+def _get_translator(target: str) -> GoogleTranslator:
+    if target not in _translators:
+        _translators[target] = GoogleTranslator(source="es", target=target)
+    return _translators[target]
 
-    translator = Translator(from_lang=source_lang, to_lang=target_lang)
-    result = translator.translate(text)
 
-    if not result or "MYMEMORY" in result:
-        raise ValueError(f"Error al traducir a {target_lang}: servicio no disponible")
-    return result
+def translate_text(text: str, target_lang: str) -> str:
+    translator = _get_translator(target_lang)
+    return translator.translate(text)
 
 
 def translate_all(text: str) -> list[dict]:
-    errors = []
     results = []
     for lang in LANGUAGES:
         try:
@@ -38,15 +32,11 @@ def translate_all(text: str) -> list[dict]:
                 "tts_code": lang["tts_code"],
                 "text": translated,
             })
-        except Exception as e:
-            errors.append(lang["name"])
+        except Exception:
             results.append({
                 "name": lang["name"],
                 "code": lang["code"],
                 "tts_code": lang["tts_code"],
                 "text": "(error al traducir)",
             })
-
-    if errors and not results:
-        raise ValueError(f"Error de traducción en: {', '.join(errors)}")
     return results
