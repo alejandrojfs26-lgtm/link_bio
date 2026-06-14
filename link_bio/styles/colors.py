@@ -13,6 +13,8 @@ class Color(Enum):
     GRADIENT_VIOLET = "#6a4cf5"
     GRADIENT_ORANGE = "#ff7a3d"
     GRADIENT_CORAL = "#ff5577"
+    WHATSAPP = "#25D366"
+    WHATSAPP_HOVER = "#1DA851"
 
 class TextColor(Enum):
     HEADER = "#FFFFFF"

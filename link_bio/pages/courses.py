@@ -9,6 +9,7 @@ from link_bio.views.courses_links import courses_links
 from link_bio.views.sponsors import sponsors
 import link_bio.styles.styles as styles
 from link_bio.styles.styles import Size as Size
+from link_bio.styles.colors import Color as Color
 from link_bio.routes import Route
 from link_bio.state.pagesstate import PagesState
 
@@ -38,6 +39,13 @@ def courses() -> rx.Component:
         float_button(
             icon_src="icons/twitch.svg",
             href="https://youtube.com",
+        ),
+        float_button(
+            icon_src="icons/whatsapp.svg",
+            href="https://wa.me/34644992100",
+            side="left",
+            bg_color=Color.WHATSAPP.value,
+            bg_hover=Color.WHATSAPP_HOVER.value,
         ),
         rx.box(
             utils.lang(),
