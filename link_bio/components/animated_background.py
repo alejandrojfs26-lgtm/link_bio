@@ -16,12 +16,14 @@ def animated_background(
   var _nb = window._nebulaBg = window._nebulaBg || {{}};
 
   function init() {{
+    if (typeof THREE === 'undefined') {{ _nb.waitTimer = setTimeout(init, 300); return; }}
+    if (_nb.retries > 30) return;
+    _nb.retries = (_nb.retries || 0) + 1;
+
     var container = document.getElementById('nebula-bg');
     if (!container) {{ _nb.waitTimer = setTimeout(init, 100); return; }}
     if (container._nebulaActive) return;
     container._nebulaActive = true;
-
-    if (typeof THREE === 'undefined') {{ setTimeout(init, 200); return; }}
 
     var props = {{
       hasActiveReminders: {'true' if has_active_reminders else 'false'},
