@@ -29,8 +29,8 @@ def animated_background(
       disableCenterDimming: {'true' if disable_center_dimming else 'false'},
     }};
 
-    var renderer = new THREE.WebGLRenderer({{ antialias: true, alpha: false }});
-    renderer.setPixelRatio(window.devicePixelRatio);
+    var renderer = new THREE.WebGLRenderer({{ antialias: false, alpha: false }});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
 
     var scene = new THREE.Scene();
@@ -62,9 +62,8 @@ def animated_background(
       '',
       'float map(vec3 p) {{',
       '  p.xz *= m(iTime * 0.4);',
-      '  p.xy *= m(iTime * 0.3);',
       '  vec3 q = p * 2.0 + iTime;',
-      '  return length(p + vec3(sin(iTime * 0.7))) * log(length(p) + 1.0)',
+      '  return length(p) * log(length(p) + 1.0)',
       '       + sin(q.x + sin(q.z + sin(q.y))) * 0.5 - 1.0;',
       '}}',
       '',
@@ -74,7 +73,7 @@ def animated_background(
       '  vec3 col = vec3(0.0);',
       '  float d = 2.5;',
       '',
-      '  for (int i = 0; i <= 5; i++) {{',
+      '  for (int i = 0; i < 3; i++) {{',
       '    vec3 p = vec3(0.0, 0.0, 5.0) + normalize(vec3(uv, -1.0)) * d;',
       '    float rz = map(p);',
       '    float f = clamp((rz - map(p + 0.1)) * 0.5, -0.1, 1.0);',
@@ -123,15 +122,24 @@ def animated_background(
     var mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
     scene.add(mesh);
 
+    var resizeTimer;
     function resize() {{
-      var w = container.clientWidth;
-      var h = container.clientHeight;
-      renderer.setSize(w, h);
-      uniforms.iResolution.value.set(w, h);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {{
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+        renderer.setSize(w, h);
+        uniforms.iResolution.value.set(w, h);
+      }}, 100);
     }}
 
+    var mouseRAF;
     function onMouseMove(e) {{
-      uniforms.iMouse.value.set(e.clientX, window.innerHeight - e.clientY);
+      if (mouseRAF) return;
+      mouseRAF = requestAnimationFrame(function() {{
+        uniforms.iMouse.value.set(e.clientX, window.innerHeight - e.clientY);
+        mouseRAF = null;
+      }});
     }}
 
     window.addEventListener('resize', resize);
@@ -142,12 +150,18 @@ def animated_background(
     renderer.setSize(initW, initH);
     uniforms.iResolution.value.set(initW, initH);
 
-    renderer.setAnimationLoop(function() {{
+    var lastFrame = 0;
+    renderer.setAnimationLoop(function(now) {{
+      var delta = now - lastFrame;
+      if (delta < 16) return;
+      lastFrame = now - (delta % 16);
       uniforms.iTime.value = clock.getElapsedTime();
       renderer.render(scene, camera);
     }});
 
     container._nebulaCleanup = function() {{
+      clearTimeout(resizeTimer);
+      if (mouseRAF) cancelAnimationFrame(mouseRAF);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
       renderer.setAnimationLoop(null);
@@ -161,6 +175,7 @@ def animated_background(
   }}
 
   if (_nb.cleanup) _nb.cleanup();
+  if (_nb.mo) _nb.mo.disconnect();
   _nb.cleanup = function() {{
     var c = document.getElementById('nebula-bg');
     if (c && c._nebulaCleanup) {{ c._nebulaCleanup(); c._nebulaActive = false; }}
@@ -168,11 +183,11 @@ def animated_background(
 
   init();
 
-  var mo = new MutationObserver(function() {{
+  _nb.mo = new MutationObserver(function() {{
     var c = document.getElementById('nebula-bg');
     if (c && !c._nebulaActive) init();
   }});
-  mo.observe(document.body || document.documentElement, {{ childList: true, subtree: true }});
+  _nb.mo.observe(document.body || document.documentElement, {{ childList: true, subtree: true }});
 
   window.addEventListener('pageshow', function(e) {{ if (e.persisted) setTimeout(init, 50); }});
   window.addEventListener('popstate', function() {{ setTimeout(init, 100); }});
